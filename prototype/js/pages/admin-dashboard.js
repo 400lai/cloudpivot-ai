@@ -9,9 +9,9 @@
     const db = App.getDB();
     const stats = [
       { label: '学科数量', value: db.subjects.length, unit: '个', icon: 'layers', tone: 'brand', foot: '较上月持平' },
-      { label: '题目数量', value: db.questions.length, unit: '道', icon: 'book', tone: 'blue', foot: '本周新增 <b class="trend up">+12</b>' },
-      { label: '注册用户', value: 28640, unit: '人', icon: 'users', tone: 'green', foot: '较上周 <b class="trend up">+12.4%</b>', formatted: true },
-      { label: 'AI面试次数', value: 96320, unit: '次', icon: 'mic', tone: 'purple', foot: '较上周 <b class="trend up">+8.6%</b>', formatted: true },
+      { label: '题目数量', value: db.questions.length, unit: '道', icon: 'book', tone: 'blue', foot: '今日新增 <b class="trend up">+23</b>' },
+      { label: '注册用户', value: 12580, unit: '人', icon: 'users', tone: 'green', foot: '今日新增 <b class="trend up">+156</b>', formatted: true },
+      { label: 'AI面试次数', value: 3420, unit: '次', icon: 'mic', tone: 'purple', foot: '今日新增 <b class="trend up">+89</b>', formatted: true },
     ];
     App.qs('#dashboardStats').innerHTML = stats.map(function (s) {
       return '<div class="admin-stat">' +
