@@ -154,7 +154,7 @@
   const TYPE_LABEL = { single: '单选题', multiple: '多选题', boolean: '判断题', short: '简答题' };
   const DIFF_LABEL = { easy: '简单', medium: '中等', hard: '困难' };
 
-  const Q = (id, subjectId, stageId, type, difficulty, stem, opts, answer, explanation, tags, attempts, correctRate, keyPoints) => ({
+  const Q = (id, subjectId, stageId, type, difficulty, stem, opts, answer, explanation, tags, attempts, correctRate, keyPoints, status) => ({
     id, subjectId, stageId, type, difficulty, stem,
     options: type === 'boolean'
       ? [{ key: 'A', text: '正确' }, { key: 'B', text: '错误' }]
@@ -166,6 +166,7 @@
     correctRate: correctRate || 0,
     keyPoints: keyPoints || [],
     answerText: type === 'short' ? answer : '',
+    status: status || '',
   });
 
   /* ---------------- 题目 ---------------- */
@@ -497,6 +498,83 @@
       ['大纲与分镜', '角色场景设定', '生成关键镜头', '配音剪辑与统一调色']),
   ];
 
+  /* ---------------- 产品原型题库（来自「2. 产品原型/prototype」） ---------------- */
+  const IMPORTED_QUESTIONS = [
+    Q('q-import-01', 'agent', 'c001', 'single', 'medium',
+      '在Java中，ArrayList和LinkedList的区别是什么？',
+      ['ArrayList基于数组，LinkedList基于链表', 'ArrayList和LinkedList完全相同', 'LinkedList查询更快', 'ArrayList插入更快'],
+      'A',
+      'ArrayList底层是数组，查询快，增删慢；LinkedList底层是双向链表，增删快，查询慢。',
+      ['集合框架', '数据结构'], 0, 0, [], 'online'),
+    Q('q-import-02', 'visual', 'c010', 'multiple', 'easy',
+      '以下哪些是JavaScript的基本数据类型？',
+      ['String', 'Number', 'Array', 'Boolean'],
+      ['A', 'B', 'D'],
+      'JS基本数据类型：String、Number、Boolean、null、undefined、Symbol、BigInt。Array是引用类型。',
+      ['JavaScript', '基础'], 0, 0, [], 'online'),
+    Q('q-import-03', 'agent', 'c004', 'single', 'easy',
+      'MySQL中，以下哪个命令用于创建数据库？',
+      ['CREATE DATABASE', 'NEW DATABASE', 'ADD DATABASE', 'INSERT DATABASE'],
+      'A',
+      'MySQL中使用CREATE DATABASE语句来创建数据库。',
+      ['MySQL', 'SQL'], 0, 0, [], 'online'),
+    Q('q-import-04', 'agent', 'c007', 'multiple', 'medium',
+      'Redis的持久化方式有哪些？',
+      ['RDB快照', 'AOF日志', 'WAL预写日志', 'Binlog'],
+      ['A', 'B'],
+      'Redis有RDB和AOF两种持久化方式。RDB是快照方式，AOF是日志追加方式。',
+      ['Redis', '持久化'], 0, 0, [], 'online'),
+    Q('q-import-05', 'agent', 'c006', 'short', 'medium',
+      'Spring中IoC和DI的区别与联系是什么？',
+      null,
+      'IoC（控制反转）是一种设计思想，DI（依赖注入）是IoC的具体实现方式。Spring通过DI实现IoC。',
+      'IoC（控制反转）是一种设计思想，DI（依赖注入）是IoC的具体实现方式。Spring通过DI实现IoC。',
+      ['Spring', 'IoC'], 0, 0, [], 'pending'),
+    Q('q-import-06', 'agent', 'c007', 'boolean', 'easy',
+      'Redis是单线程模型，所以不需要考虑线程安全问题。',
+      null, 'B',
+      'Redis核心命令执行是单线程，但从6.0引入了多线程IO。',
+      ['Redis', '线程'], 0, 0, [], 'online'),
+    Q('q-import-07', 'agent', 'c008', 'short', 'hard',
+      '什么是CAP理论？在分布式系统中如何权衡？',
+      null,
+      'CAP理论指一致性(C)、可用性(A)、分区容错性(P)三者最多满足两个。分布式系统通常优先保证P，然后在C和A之间权衡。',
+      'CAP理论指一致性(C)、可用性(A)、分区容错性(P)三者最多满足两个。分布式系统通常优先保证P，然后在C和A之间权衡。',
+      ['分布式', 'CAP'], 0, 0, [], 'online'),
+    Q('q-import-08', 'agent', 'c004', 'multiple', 'medium',
+      'MySQL中什么情况下索引会失效？',
+      ['使用LIKE左模糊匹配', '对索引列使用函数', '使用OR连接非索引列', '使用WHERE id = 1'],
+      ['A', 'B', 'C'],
+      '索引失效常见情况：左模糊、使用函数、OR条件、类型隐式转换等。',
+      ['MySQL', '索引'], 0, 0, [], 'online'),
+    Q('q-import-09', 'agent', 'c001', 'single', 'medium',
+      'HashMap的底层数据结构是什么？',
+      ['数组+链表+红黑树', '只有数组', '双向链表', '跳表'],
+      'A',
+      'HashMap底层是数组+链表+红黑树。当链表长度>=8且数组长度>=64时，链表转为红黑树。',
+      ['集合框架', 'HashMap'], 0, 0, [], 'online'),
+    Q('q-import-10', 'visual', 'c010', 'short', 'medium',
+      'TCP三次握手的过程是什么？',
+      null,
+      '三次握手：SYN→SYN+ACK→ACK。确保双方收发能力正常。',
+      '三次握手：SYN→SYN+ACK→ACK。确保双方收发能力正常。',
+      ['网络', 'TCP'], 0, 0, [], 'pending'),
+    Q('q-import-11', 'llm', 'c009', 'single', 'easy',
+      'Python中列表和元组的区别？',
+      ['列表可变，元组不可变', '列表不可变，元组可变', '两者没有区别', '列表用()定义'],
+      'A',
+      '列表(list)用[]定义，可变；元组(tuple)用()定义，不可变。',
+      ['Python', '基础'], 0, 0, [], 'online'),
+    Q('q-import-12', 'agent', 'c004', 'multiple', 'medium',
+      '什么是事务的ACID特性？',
+      ['原子性(Atomicity)', '一致性(Consistency)', '隔离性(Isolation)', '持久性(Durability)'],
+      ['A', 'B', 'C', 'D'],
+      'ACID指原子性、一致性、隔离性、持久性，是事务的四大特性。',
+      ['事务', 'ACID'], 0, 0, [], 'online'),
+  ];
+
+  const importedQuestionsByStage = stageId => IMPORTED_QUESTIONS.filter(q => q.stageId === stageId);
+
   const SUBJECTS = [
     {
       ...DIRECTION_META[0],
@@ -505,9 +583,14 @@
         { id: 'agent-llm', name: '大模型基础', icon: '🧠', desc: 'Transformer、RAG、微调与 Agent 基础概念', questions: AGENT_LLM },
         { id: 'agent-prompt', name: 'Prompt 工程', icon: '✍️', desc: '提示词结构、思维链与安全防护', questions: AGENT_PROMPT },
         { id: 'agent-build', name: '智能体开发实战', icon: '🛠️', desc: 'ReAct、多智能体协作与记忆机制', questions: AGENT_BUILD },
+        { id: 'c001', name: 'AI应用基础', icon: '🤖', desc: 'Java 集合框架等应用开发基础（产品原型题库）', questions: importedQuestionsByStage('c001') },
+        { id: 'c006', name: 'Spring生态', icon: '🍃', desc: 'Spring IoC 与依赖注入（产品原型题库）', questions: importedQuestionsByStage('c006') },
+        { id: 'c004', name: '数据库', icon: '🗄️', desc: 'MySQL 基础、索引与事务（产品原型题库）', questions: importedQuestionsByStage('c004') },
+        { id: 'c007', name: 'Redis缓存', icon: '📦', desc: 'Redis 持久化与线程模型（产品原型题库）', questions: importedQuestionsByStage('c007') },
+        { id: 'c008', name: '微服务', icon: '🔧', desc: 'CAP 理论与分布式权衡（产品原型题库）', questions: importedQuestionsByStage('c008') },
       ],
-      courseIds: ['c1', 'c2', 'c3'],
-      quizCount: 15,
+      courseIds: ['crs001', 'crs002', 'crs003', 'crs004', 'crs005', 'crs006', 'crs007', 'crs008', 'crs009', 'crs010', 'crs011', 'crs012', 'crs013', 'crs014', 'crs015', 'crs016', 'crs017', 'crs032', 'crs035', 'crs036'],
+      quizCount: 24,
     },
     {
       ...DIRECTION_META[1],
@@ -515,9 +598,10 @@
       stages: [
         { id: 'llm-transformer', name: 'Transformer 原理', icon: '⚡', desc: '注意力机制、位置编码与推理优化', questions: LLM_TRANS },
         { id: 'llm-finetune', name: '模型微调', icon: '🎛️', desc: '全量微调、LoRA 与参数高效微调', questions: LLM_FINETUNE },
+        { id: 'c009', name: 'Python基础', icon: '🐍', desc: 'Python 基础语法与数据结构（产品原型题库）', questions: importedQuestionsByStage('c009') },
       ],
-      courseIds: ['c4', 'c5'],
-      quizCount: 5,
+      courseIds: ['crs027', 'crs028', 'crs029'],
+      quizCount: 6,
     },
     {
       ...DIRECTION_META[2],
@@ -526,7 +610,7 @@
         { id: 'embodied-kinematics', name: '机器人运动学', icon: '🦿', desc: '正逆运动学与 ROS2 通信', questions: EMBODIED_KINEMATICS },
         { id: 'embodied-perception', name: '感知与决策', icon: '👁️', desc: '多传感器融合与动态环境决策', questions: EMBODIED_PERCEPTION },
       ],
-      courseIds: ['c6', 'c7'],
+      courseIds: [],
       quizCount: 4,
     },
     {
@@ -536,7 +620,7 @@
         { id: 'embedded-basics', name: '嵌入式系统基础', icon: '🔧', desc: 'RTOS、中断与底层开发', questions: EMBEDDED_BASICS },
         { id: 'embedded-edge', name: '边缘AI部署', icon: '📟', desc: '量化、剪枝与端侧推理', questions: EMBEDDED_EDGE },
       ],
-      courseIds: ['c8', 'c9'],
+      courseIds: ['crs030', 'crs031'],
       quizCount: 4,
     },
     {
@@ -546,7 +630,7 @@
         { id: 'testing-basics', name: 'AI测试基础', icon: '🧫', desc: 'AI 测试思维与常用方法', questions: TESTING_BASICS },
         { id: 'testing-eval', name: '模型评测', icon: '📊', desc: '评测集设计与离线/在线评测', questions: TESTING_EVAL },
       ],
-      courseIds: ['c10'],
+      courseIds: ['crs033'],
       quizCount: 4,
     },
     {
@@ -556,7 +640,7 @@
         { id: 'ops-infra', name: 'AI基础设施', icon: '🖥️', desc: 'GPU、推理服务与性能监控', questions: OPS_INFRA },
         { id: 'ops-mlops', name: 'MLOps', icon: '♻️', desc: '模型生命周期与漂移监控', questions: OPS_MLOPS },
       ],
-      courseIds: ['c11'],
+      courseIds: ['crs034'],
       quizCount: 4,
     },
     {
@@ -565,9 +649,10 @@
       stages: [
         { id: 'visual-creative', name: 'AI视觉创意', icon: '🖌️', desc: 'ControlNet、风格一致性与创意生成', questions: VISUAL_CREATIVE },
         { id: 'visual-business', name: '商业设计实战', icon: '💼', desc: '品牌规范、交付流程与版权合规', questions: VISUAL_BUSINESS },
+        { id: 'c010', name: 'AI视觉基础', icon: '🎨', desc: 'JavaScript 与网络基础（产品原型题库）', questions: importedQuestionsByStage('c010') },
       ],
-      courseIds: ['c12'],
-      quizCount: 4,
+      courseIds: ['crs018', 'crs019', 'crs020', 'crs021', 'crs022', 'crs023', 'crs024', 'crs025', 'crs026'],
+      quizCount: 6,
     },
     {
       ...DIRECTION_META[7],
@@ -577,7 +662,7 @@
         { id: 'video-drama', name: '短剧创作实战', icon: '🎭', desc: '分镜脚本与 AI 工作流', questions: VIDEO_DRAMA },
         { id: 'video-delivery', name: '商业化与交付', icon: '🚚', desc: '内容筹备中', questions: [] },
       ],
-      courseIds: ['c13'],
+      courseIds: [],
       quizCount: 4,
     },
   ];
@@ -586,28 +671,55 @@
 
   /* ---------------- 课程 ---------------- */
   const COURSE_SEED = [
-    { id: 'c1', cover: '../assets/images/covers/c1.svg', title: 'LangChain 从入门到实战：构建你的第一个 Agent', subjectId: 'agent', duration: 380, bvid: 'BV1Qx4y1M7vA', playCount: 128000, source: 'B站', coverFrom: '#6366F1', coverTo: '#8B5CF6', emoji: '🦜', addedAt: '2025-09-12' },
-    { id: 'c2', cover: '../assets/images/covers/c2.svg', title: 'RAG 检索增强生成全解析：原理、工程与评测', subjectId: 'agent', duration: 245, bvid: 'BV1Kp4y1N7bC', playCount: 96000, source: 'B站', coverFrom: '#0EA5E9', coverTo: '#6366F1', emoji: '📚', addedAt: '2025-09-20' },
-    { id: 'c3', cover: '../assets/images/covers/c3.svg', title: '多智能体系统设计：从角色分工到协作编排', subjectId: 'agent', duration: 330, bvid: 'BV1Tq4y1P7dE', playCount: 61000, source: 'B站', coverFrom: '#7C3AED', coverTo: '#EC4899', emoji: '🤝', addedAt: '2025-10-02' },
-    { id: 'c4', cover: '../assets/images/covers/c4.svg', title: 'Transformer 详解：注意力、位置编码与 KV Cache', subjectId: 'llm', duration: 490, bvid: 'BV1Lr4y1R7fG', playCount: 152000, source: 'B站', coverFrom: '#8B5CF6', coverTo: '#4F46E5', emoji: '🧠', addedAt: '2025-08-28' },
-    { id: 'c5', cover: '../assets/images/covers/c5.svg', title: '大模型微调实战：LoRA 与 QLoRA 全流程', subjectId: 'llm', duration: 405, bvid: 'BV1Ms4y1T7hJ', playCount: 87000, source: 'B站', coverFrom: '#4F46E5', coverTo: '#06B6D4', emoji: '🎛️', addedAt: '2025-09-08' },
-    { id: 'c6', cover: '../assets/images/covers/c6.svg', title: '机器人运动学与 ROS2 入门', subjectId: 'embodied', duration: 440, bvid: 'BV1Nt4y1V7kL', playCount: 58000, source: 'B站', coverFrom: '#06B6D4', coverTo: '#0EA5E9', emoji: '🦾', addedAt: '2025-09-15' },
-    { id: 'c7', cover: '../assets/images/covers/c7.svg', title: '具身智能：感知、规划与决策', subjectId: 'embodied', duration: 315, bvid: 'BV1Pv4y1X7mN', playCount: 43000, source: 'B站', coverFrom: '#0891B2', coverTo: '#6366F1', emoji: '👁️', addedAt: '2025-10-06' },
-    { id: 'c8', cover: '../assets/images/covers/c8.svg', title: '嵌入式 C 语言与 RTOS 实战', subjectId: 'embedded', duration: 540, bvid: 'BV1Rw4y1Z7pQ', playCount: 76000, source: 'B站', coverFrom: '#F59E0B', coverTo: '#EF4444', emoji: '🔧', addedAt: '2025-08-18' },
-    { id: 'c9', cover: '../assets/images/covers/c9.svg', title: '边缘 AI 部署实战：量化、剪枝与端侧推理', subjectId: 'embedded', duration: 280, bvid: 'BV1Sx4y1B7rS', playCount: 39000, source: 'B站', coverFrom: '#D97706', coverTo: '#F59E0B', emoji: '📟', addedAt: '2025-10-10' },
-    { id: 'c10', cover: '../assets/images/covers/c10.svg', title: 'AI 测试方法与工具链：从评测集到自动化', subjectId: 'testing', duration: 230, bvid: 'BV1Uy4y1D7tU', playCount: 51000, source: 'B站', coverFrom: '#10B981', coverTo: '#06B6D4', emoji: '🧪', addedAt: '2025-09-25' },
-    { id: 'c11', cover: '../assets/images/covers/c11.svg', title: 'MLOps 从 0 到 1：模型上线与可观测性', subjectId: 'ops', duration: 305, bvid: 'BV1Wz4y1F7vW', playCount: 47000, source: 'B站', coverFrom: '#3B82F6', coverTo: '#8B5CF6', emoji: '♻️', addedAt: '2025-09-30' },
-    { id: 'c12', cover: '../assets/images/covers/c12.svg', title: 'AIGC 视觉设计实战：风格、控制与商业交付', subjectId: 'visual', duration: 265, bvid: 'BV1Xa4y1H7xY', playCount: 68000, source: 'B站', coverFrom: '#EC4899', coverTo: '#8B5CF6', emoji: '🎨', addedAt: '2025-10-12' },
-    { id: 'c13', cover: '../assets/images/covers/c13.svg', title: 'AI 短视频创作全流程：分镜、生成与剪辑', subjectId: 'video', duration: 210, bvid: 'BV1Yb4y1J7zA', playCount: 83000, source: 'B站', coverFrom: '#F97316', coverTo: '#EC4899', emoji: '🎬', addedAt: '2025-10-18' },
-    { id: 'c14', cover: '../assets/images/covers/c14.svg', title: '大模型应用安全与合规指南', subjectId: 'other', duration: 185, bvid: 'BV1Zc4y1K7bB', playCount: 26000, source: '其他', coverFrom: '#64748B', coverTo: '#334155', emoji: '🛡️', addedAt: '2025-10-22' },
+    { id: "crs001", coverUrl: "../assets/images/courses/crs001.jpg", title: "Java零基础视频教程_上部", subjectId: "agent", duration: 4512, bvid: "BV17F411T7Ao", playCount: 46588162, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs002", coverUrl: "../assets/images/courses/crs002.jpg", title: "Java零基础视频教程_下部", subjectId: "agent", duration: 2306, bvid: "BV1yW4y1Y7Ms", playCount: 27032356, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs003", coverUrl: "../assets/images/courses/crs003.jpg", title: "Java入门基础视频教程", subjectId: "agent", duration: 4753, bvid: "BV1Cv411372m", playCount: 9961094, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs004", coverUrl: "../assets/images/courses/crs004.jpg", title: "2026版AI+Java零基础全套视频课程", subjectId: "agent", duration: 2267, bvid: "BV1TJxCzSEEZ", playCount: 6198129, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs005", coverUrl: "../assets/images/courses/crs005.jpg", title: "MySQL数据库入门到精通", subjectId: "agent", duration: 1801, bvid: "BV1Kr4y1i7ru", playCount: 13045697, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs006", coverUrl: "../assets/images/courses/crs006.jpg", title: "AI+JavaWeb开发入门项目实战", subjectId: "agent", duration: 4558, bvid: "BV1yGydYEE3H", playCount: 11479834, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs007", coverUrl: "../assets/images/courses/crs007.jpg", title: "JavaWeb开发教程(Spring+MyBatis+SpringMVC+SpringBoot)", subjectId: "agent", duration: 2571, bvid: "BV1m84y1w7Tb", playCount: 8929984, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs008", coverUrl: "../assets/images/courses/crs008.jpg", title: "JavaWeb基础教程企业实战完整版", subjectId: "agent", duration: 2049, bvid: "BV1Qf4y1T7Hx", playCount: 6058523, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs009", coverUrl: "../assets/images/courses/crs009.jpg", title: "SSM框架教程(Spring+SpringMVC+MyBatisPlus)", subjectId: "agent", duration: 1255, bvid: "BV1Fi4y1S7ix", playCount: 5212031, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs010", coverUrl: "../assets/images/courses/crs010.png", title: "SSM框架教程(Spring+SpringMVC+MyBatis)", subjectId: "agent", duration: 1399, bvid: "BV1WZ4y1P7Bp", playCount: 2386482, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs011", coverUrl: "../assets/images/courses/crs011.jpg", title: "SpringBoot2全套视频教程", subjectId: "agent", duration: 2069, bvid: "BV15b4y1a7yG", playCount: 2907212, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs012", coverUrl: "../assets/images/courses/crs012.jpg", title: "SpringBoot3+Vue3全套视频教程", subjectId: "agent", duration: 1452, bvid: "BV14z4y1N7pg", playCount: 2642429, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs013", coverUrl: "../assets/images/courses/crs013.jpg", title: "SpringCloud微服务技术栈课程", subjectId: "agent", duration: 2680, bvid: "BV1LQ4y127n4", playCount: 4532283, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs014", coverUrl: "../assets/images/courses/crs014.jpg", title: "SpringCloud微服务开发与实战", subjectId: "agent", duration: 2452, bvid: "BV1S142197x7", playCount: 2664762, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs015", coverUrl: "../assets/images/courses/crs015.jpg", title: "苍穹外卖(SpringBoot+SSM企业级项目)", subjectId: "agent", duration: 2271, bvid: "BV1TP411v7v6", playCount: 6652392, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs016", coverUrl: "../assets/images/courses/crs016.png", title: "瑞吉外卖(SpringBoot+MyBatisPlus)", subjectId: "agent", duration: 1939, bvid: "BV13a411q753", playCount: 4114854, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs017", coverUrl: "../assets/images/courses/crs017.jpg", title: "Java+AI智能辅助编程全套视频教程", subjectId: "agent", duration: 3557, bvid: "BV1gb42177hm", playCount: 3508715, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs018", coverUrl: "../assets/images/courses/crs018.jpg", title: "前端Web开发HTML5+CSS3+移动web视频教程", subjectId: "visual", duration: 2687, bvid: "BV1kM4y127Li", playCount: 4300461, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs019", coverUrl: "../assets/images/courses/crs019.jpg", title: "前端开发入门教程(html5+css3+项目)", subjectId: "visual", duration: 1640, bvid: "BV1Kg411T7t9", playCount: 4277687, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs020", coverUrl: "../assets/images/courses/crs020.jpg", title: "前端JavaScript入门到精通全套视频教程", subjectId: "visual", duration: 3610, bvid: "BV1Y84y1L7Nn", playCount: 7643764, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs021", coverUrl: "../assets/images/courses/crs021.jpg", title: "JavaScript全套教程(Web前端必学)", subjectId: "visual", duration: 996, bvid: "BV1ux411d75J", playCount: 3093539, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs022", coverUrl: "../assets/images/courses/crs022.jpg", title: "Vue2+Vue3基础入门到实战项目全套教程", subjectId: "visual", duration: 3092, bvid: "BV1HV4y1a7n4", playCount: 3508291, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs023", coverUrl: "../assets/images/courses/crs023.jpg", title: "Vue全套视频教程(vue2到vue3全覆盖)", subjectId: "visual", duration: 3598, bvid: "BV1zq4y1p7ga", playCount: 3028501, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs024", coverUrl: "../assets/images/courses/crs024.jpg", title: "Node.js全套入门教程(含es6+express+webpack)", subjectId: "visual", duration: 1355, bvid: "BV1a34y167AZ", playCount: 2956521, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs025", coverUrl: "../assets/images/courses/crs025.png", title: "微信小程序开发教程(含uni-app多端部署)", subjectId: "visual", duration: 1777, bvid: "BV1834y1676P", playCount: 6430425, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs026", coverUrl: "../assets/images/courses/crs026.jpg", title: "微信小程序开发前端教程", subjectId: "visual", duration: 1131, bvid: "BV1nE41117BQ", playCount: 3232616, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs027", coverUrl: "../assets/images/courses/crs027.jpg", title: "Python零基础全套教程(8天从入门到精通)", subjectId: "llm", duration: 1900, bvid: "BV1qW4y1a7fU", playCount: 24880310, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs028", coverUrl: "../assets/images/courses/crs028.png", title: "Python教程_600集从入门到精通", subjectId: "llm", duration: 3303, bvid: "BV1ex411x7Em", playCount: 20799266, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs029", coverUrl: "../assets/images/courses/crs029.jpg", title: "Python+AI零基础入门到大神全套视频课程", subjectId: "llm", duration: 3099, bvid: "BV1sHU9BmEne", playCount: 8416669, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs030", coverUrl: "../assets/images/courses/crs030.jpg", title: "C++教程从0到1入门编程", subjectId: "embedded", duration: 3150, bvid: "BV1et411b73Z", playCount: 46588162, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs031", coverUrl: "../assets/images/courses/crs031.jpg", title: "C语言零基础入门到精通全套视频教程", subjectId: "embedded", duration: 1588, bvid: "BV1Xa4y1k7LU", playCount: 5901067, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs032", coverUrl: "../assets/images/courses/crs032.jpg", title: "大模型RAG与Agent智能体项目实战教程", subjectId: "agent", duration: 932, bvid: "BV1yjz5BLEoY", playCount: 3057154, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs033", coverUrl: "../assets/images/courses/crs033.png", title: "软件测试视频教程(基础入门到项目实战)", subjectId: "testing", duration: 986, bvid: "BV1TP4y1J7BD", playCount: 2390458, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs034", coverUrl: "../assets/images/courses/crs034.jpg", title: "Linux零基础快速入门到精通", subjectId: "ops", duration: 802, bvid: "BV1n84y1i7td", playCount: 7586640, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs035", coverUrl: "../assets/images/courses/crs035.jpg", title: "新版Java面试专题视频教程", subjectId: "agent", duration: 1422, bvid: "BV1yT411H7YK", playCount: 3801671, source: "B站", addedAt: "2026-07-24" },
+    { id: "crs036", coverUrl: "../assets/images/courses/crs036.png", title: "深入学习Java并发编程(JUC)", subjectId: "agent", duration: 1959, bvid: "BV16J411h7Rd", playCount: 2770792, source: "B站", addedAt: "2026-07-24" }
   ];
 
   /* ---------------- 学习路线 ---------------- */
   const ROADMAP_SEED = [
-    { id: 'r1', name: 'AI 应用开发 90 天进阶路线', subjectId: 'agent', icon: '🚀', status: 'active', audience: '有 Python 基础、希望转型 AI 应用开发的同学', desc: '从大模型基础到 Agent 工程化落地，按课程顺序完成三次实战项目，建立完整的 AI 应用开发能力。', courseIds: ['c1', 'c2', 'c3'], updatedAt: '2025-10-20' },
-    { id: 'r2', name: '大模型工程师成长路线', subjectId: 'llm', icon: '🧠', status: 'active', audience: '具备深度学习基础、想深入大模型底层的同学', desc: '先打牢 Transformer 与推理优化基础，再进入 LoRA 微调实战，形成从原理到落地的完整认知。', courseIds: ['c4', 'c5'], updatedAt: '2025-10-16' },
-    { id: 'r3', name: 'AI 测试工程师入门路线', subjectId: 'testing', icon: '🧪', status: 'active', audience: '测试工程师、质量保障从业者', desc: '理解 AI 系统的非确定性特征，掌握评测集设计、自动化测试与线上效果监控方法。', courseIds: ['c10'], updatedAt: '2025-10-08' },
-    { id: 'r4', name: 'AI 短剧创作实战路线', subjectId: 'video', icon: '🎬', status: 'disabled', audience: '内容创作者、短视频编导与设计从业者', desc: '从分镜脚本到 AI 生成与剪辑，完整体验一支 1 分钟短剧的工业化创作流程。', courseIds: ['c13'], updatedAt: '2025-10-21' },
+    { id: "r001", name: "AI应用与智能体全栈开发", subjectId: "agent", icon: "🤖", status: "active", audience: "🎓 适合大专及以上学历，逻辑思维较强，希望从事AI应用开发、智能体开发的学员。0基础可学，建议学习周期6-8个月。", education: "大专及以上", desc: "从零基础到AI应用全栈工程师，涵盖AI应用开发、Spring全家桶、微服务架构、RAG检索增强", courseIds: ["crs001", "crs002", "crs003", "crs004", "crs005", "crs006", "crs007", "crs008", "crs009", "crs010", "crs011", "crs012", "crs013", "crs014", "crs015", "crs016", "crs017"], updatedAt: "2026-07-24" },
+    { id: "r002", name: "AI视觉设计工程师", subjectId: "visual", icon: "🎨", status: "active", audience: "🎓 适合对UI交互敏感、喜欢视觉创作的学员。0基础可学，建议学习周期5-7个月。", education: "不限", desc: "从入门到精通AI视觉设计，涵盖UI设计、AIGC视觉创作、前端工程化", courseIds: ["crs018", "crs019", "crs020", "crs021", "crs022", "crs023", "crs024", "crs025", "crs026"], updatedAt: "2026-07-24" },
+    { id: "r003", name: "AI大模型开发工程师", subjectId: "llm", icon: "🧠", status: "active", audience: "🎓 适合大专及以上学历，入门友好，适合转行学员。0基础可学，建议学习周期5-6个月。", education: "大专及以上", desc: "从Python基础到大模型开发，涵盖机器学习、深度学习、大模型微调与部署", courseIds: ["crs027", "crs028", "crs029"], updatedAt: "2026-07-24" },
+    { id: "r004", name: "AI嵌入式_机器人开发工程师", subjectId: "embedded", icon: "🔌", status: "active", audience: "🎓 适合本科及以上学历，对底层原理和硬件感兴趣，希望从事嵌入式、机器人开发的学员。建议学习周期7-9个月。", education: "本科及以上", desc: "从C语言基础到嵌入式Linux、ROS机器人开发，涵盖数据结构、ARM架构、边缘AI部署", courseIds: ["crs030", "crs031"], updatedAt: "2026-07-24" },
+    { id: "r005", name: "AI应用与智能体开发", subjectId: "agent", icon: "🤖", status: "active", audience: "🎓 适合大专及以上学历，有至少一门编程语言基础，对AI应用开发充满热情的学员。建议学习周期3-5个月。", education: "大专及以上", desc: "基于大模型API构建AI应用，Prompt工程、RAG检索增强、Agent智能体、MCP协议", courseIds: ["crs027", "crs028", "crs032", "crs017"], updatedAt: "2026-07-24" },
+    { id: "r006", name: "AI大模型算法工程师", subjectId: "llm", icon: "🧠", status: "active", audience: "🎓 适合本科及以上学历（计算机/数学/统计相关专业优先），数学基础较好，希望从事AI算法岗的学员。建议学习周期8-12个月。", education: "本科及以上", desc: "从机器学习基础到大模型训练与微调，涵盖NLP/CV、模型压缩、部署优化", courseIds: ["crs032"], updatedAt: "2026-07-24" },
+    { id: "r007", name: "AI测试开发工程师", subjectId: "testing", icon: "🧪", status: "active", audience: "🎓 适合大专及以上学历，细心耐心，逻辑缜密，希望从传统测试升级到AI测试的学员。建议学习周期4-6个月。", education: "大专及以上", desc: "融合AI的软件测试全流程，自动化测试、AI驱动测试、性能测试", courseIds: ["crs033"], updatedAt: "2026-07-24" },
+    { id: "r008", name: "AI运维开发工程师", subjectId: "ops", icon: "🛠️", status: "active", audience: "🎓 适合大专及以上学历，熟悉Linux命令行，对系统架构和稳定性有追求的学员。建议学习周期5-7个月。", education: "大专及以上", desc: "云原生时代的AI运维体系，Docker/K8s、监控告警、CICD、AIops", courseIds: ["crs034"], updatedAt: "2026-07-24" },
+    { id: "r009", name: "AI具身智能机器人开发", subjectId: "embodied", icon: "🦾", status: "active", audience: "🎓 适合本科及以上学历（电子/自动化/计算机相关专业），有C/C++基础，对硬件和机器人感兴趣的学员。建议学习周期8-10个月。", education: "本科及以上", desc: "AI与硬件的深度融合，具身智能、机器人控制、传感器融合、仿真环境", courseIds: ["crs031", "crs034"], updatedAt: "2026-07-24" }
   ];
 
   /* ---------------- 错题本 ---------------- */
@@ -620,6 +732,12 @@
     { questionId: 'q-ops-01', wrongCount: 1, corrected: 0, mastered: false, lastWrong: '2026-11-05 21:18', userAnswer: ['D'] },
     { questionId: 'q-visual-01', wrongCount: 1, corrected: 3, mastered: true, lastWrong: '2026-11-03 16:22', userAnswer: ['B'] },
     { questionId: 'q-agent-01', wrongCount: 1, corrected: 3, mastered: true, lastWrong: '2026-11-02 20:10', userAnswer: ['C'] },
+    { questionId: 'q-import-01', wrongCount: 2, corrected: 0, mastered: false, lastWrong: '2026-07-23', userAnswer: ['B'] },
+    { questionId: 'q-import-02', wrongCount: 2, corrected: 0, mastered: false, lastWrong: '2026-07-22', userAnswer: [] },
+    { questionId: 'q-import-04', wrongCount: 1, corrected: 0, mastered: false, lastWrong: '2026-07-21', userAnswer: ['A'] },
+    { questionId: 'q-import-08', wrongCount: 3, corrected: 0, mastered: false, lastWrong: '2026-07-20', userAnswer: ['A'] },
+    { questionId: 'q-import-06', wrongCount: 1, corrected: 3, mastered: true, lastWrong: '2026-07-18', userAnswer: ['A'] },
+    { questionId: 'q-import-07', wrongCount: 1, corrected: 3, mastered: true, lastWrong: '2026-07-15', userAnswer: ['理解不全面'] },
   ];
 
   /* ---------------- AI 面试题 ---------------- */
@@ -703,21 +821,20 @@
   ];
 
   const INTERVIEW_HISTORY_SEED = [
-    { id: 'ih-1', direction: 'agent', directionName: 'AI应用与智能体开发', difficulty: 'medium', score: 86, date: '2026-11-08 20:14', duration: 1580, count: 10 },
-    { id: 'ih-2', direction: 'agent', directionName: 'AI应用与智能体开发', difficulty: 'medium', score: 78, date: '2026-10-30 19:40', duration: 1320, count: 8 },
-    { id: 'ih-3', direction: 'llm', directionName: 'AI大模型开发', difficulty: 'hard', score: 72, date: '2026-10-22 21:05', duration: 1860, count: 10 },
-    { id: 'ih-4', direction: 'testing', directionName: 'AI测试', difficulty: 'easy', score: 91, date: '2026-10-15 18:20', duration: 980, count: 5 },
-    { id: 'ih-5', direction: 'agent', directionName: 'AI应用与智能体开发', difficulty: 'hard', score: 64, date: '2026-10-03 20:50', duration: 2100, count: 10 },
-    { id: 'ih-6', direction: 'video', directionName: 'AI视频与短剧创作', difficulty: 'medium', score: 83, date: '2026-09-26 15:30', duration: 1240, count: 8 },
+    { id: "ih-1", direction: "agent", directionName: "AI应用与智能体开发", difficulty: "medium", score: 85, date: "2026-07-23 14:30", duration: 2100, count: 10, status: "completed" },
+    { id: "ih-2", direction: "visual", directionName: "AI视觉设计", difficulty: "easy", score: 92, date: "2026-07-21 10:15", duration: 1500, count: 8, status: "completed" },
+    { id: "ih-3", direction: "agent", directionName: "AI应用与智能体开发", difficulty: "hard", score: 72, date: "2026-07-18 16:00", duration: 2400, count: 12, status: "completed" },
+    { id: "ih-4", direction: "llm", directionName: "AI大模型开发", difficulty: "medium", score: 88, date: "2026-07-15 09:30", duration: 1800, count: 10, status: "completed" },
+    { id: "ih-5", direction: "agent", directionName: "AI应用与智能体开发", difficulty: "medium", score: 0, date: "2026-07-24 11:00", duration: 720, count: 5, status: "in_progress" }
   ];
 
   /* ---------------- 首页数据 ---------------- */
   const HOME = {
     stats: [
-      { label: '精选面试题', value: 12860, suffix: '+' },
-      { label: '注册学员', value: 28640, suffix: '+' },
-      { label: 'AI 面试次数', value: 96320, suffix: '+' },
-      { label: '学员好评率', value: 98.6, suffix: '%', decimals: 1 },
+      { label: '精选面试题', value: 1567, suffix: '+' },
+      { label: '注册学员', value: 12580, suffix: '+' },
+      { label: 'AI 面试次数', value: 3420, suffix: '+' },
+      { label: '学员好评率', value: 95, suffix: '%' },
     ],
     quickStart: [
       { title: '规划学习路线', desc: '按学科路线系统化学习', icon: 'route', color: 'amber', href: 'routes.html' },
@@ -731,33 +848,33 @@
       { title: '刷题练习', desc: '顺序或随机模式，AI 批改简答，错题自动沉淀。', icon: 'edit', href: 'practice.html' },
       { title: 'AI 模拟面试', desc: '智能出题、实时评分、生成能力报告，还原真实面试节奏。', icon: 'mic', href: 'ai-config.html' },
     ],
-    learning: { streak: 12, accuracy: 82, total: 468 },
+    learning: { streak: 7, accuracy: 78, total: 356 },
     practice7days: [
-      { label: '周一', value: 12 }, { label: '周二', value: 20 }, { label: '周三', value: 8 },
-      { label: '周四', value: 26 }, { label: '周五', value: 18 }, { label: '周六', value: 32 }, { label: '今日', value: 24, today: true },
+      { label: "07-18", value: 15 }, { label: "07-19", value: 22 }, { label: "07-20", value: 8 }, { label: "07-21", value: 30 }, { label: "07-22", value: 18 }, { label: "07-23", value: 25 }, { label: "07-24", value: 12, today: true }
     ],
     hotSubjects: ['agent', 'llm', 'testing', 'embodied', 'video', 'ops'],
   };
 
   /* ---------------- 管理端数据 ---------------- */
   const ADMIN_STUDENTS = [
-    { id: 'stu-1', name: '林小满', phone: '138****6621', email: 'linxiaoman@example.com', avatarColor: '#6366F1', joined: '2025-08-12', studyDays: 96, courseCount: 6, practiceCount: 468, accuracy: 82, interviewCount: 12, status: 'active', lastLogin: '2026-11-11 09:42' },
-    { id: 'stu-2', name: '周予安', phone: '139****2043', email: 'zhouyuan@example.com', avatarColor: '#8B5CF6', joined: '2025-09-03', studyDays: 74, courseCount: 4, practiceCount: 326, accuracy: 76, interviewCount: 8, status: 'active', lastLogin: '2026-11-10 21:18' },
-    { id: 'stu-3', name: '陈一诺', phone: '137****8892', email: 'chenyinuo@example.com', avatarColor: '#06B6D4', joined: '2025-09-18', studyDays: 58, courseCount: 3, practiceCount: 215, accuracy: 69, interviewCount: 5, status: 'disabled', lastLogin: '2026-10-28 14:02' },
-    { id: 'stu-4', name: '许知远', phone: '136****1176', email: 'xuzhiyuan@example.com', avatarColor: '#10B981', joined: '2025-10-01', studyDays: 41, courseCount: 5, practiceCount: 302, accuracy: 88, interviewCount: 9, status: 'active', lastLogin: '2026-11-11 08:36' },
-    { id: 'stu-5', name: '唐可心', phone: '135****4509', email: 'tangke@example.com', avatarColor: '#F59E0B', joined: '2025-10-19', studyDays: 23, courseCount: 2, practiceCount: 128, accuracy: 64, interviewCount: 3, status: 'active', lastLogin: '2026-11-09 19:55' },
-    { id: 'stu-6', name: '魏子昂', phone: '188****7325', email: 'weiziang@example.com', avatarColor: '#EC4899', joined: '2025-11-02', studyDays: 9, courseCount: 1, practiceCount: 42, accuracy: 58, interviewCount: 1, status: 'active', lastLogin: '2026-11-08 22:10' },
-    { id: 'stu-7', name: '苏念', phone: '189****3021', email: 'sunian@example.com', avatarColor: '#3B82F6', joined: '2025-11-05', studyDays: 6, courseCount: 1, practiceCount: 31, accuracy: 61, interviewCount: 0, status: 'disabled', lastLogin: '2026-11-06 10:22' },
-    { id: 'stu-8', name: '顾清和', phone: '186****9410', email: 'guqinghe@example.com', avatarColor: '#F97316', joined: '2025-11-08', studyDays: 3, courseCount: 0, practiceCount: 12, accuracy: 50, interviewCount: 0, status: 'active', lastLogin: '2026-11-10 17:45' },
+    { id: "stu-1", name: "张三", phone: "138****0001", email: "zhangsan@test.com", avatarColor: "#6366F1", joined: "2026-06-01", studyDays: 54, courseCount: 3, practiceCount: 356, accuracy: 78, interviewCount: 12, status: "active", lastLogin: "2026-07-24 10:30" },
+    { id: "stu-2", name: "李四", phone: "138****0002", email: "lisi@test.com", avatarColor: "#8B5CF6", joined: "2026-06-03", studyDays: 41, courseCount: 2, practiceCount: 210, accuracy: 72, interviewCount: 8, status: "active", lastLogin: "2026-07-23 15:20" },
+    { id: "stu-3", name: "王五", phone: "138****0003", email: "wangwu@test.com", avatarColor: "#06B6D4", joined: "2026-06-05", studyDays: 18, courseCount: 1, practiceCount: 88, accuracy: 65, interviewCount: 3, status: "disabled", lastLogin: "2026-07-10 09:00" },
+    { id: "stu-4", name: "赵六", phone: "138****0005", email: "zhaoliu@test.com", avatarColor: "#10B981", joined: "2026-06-10", studyDays: 35, courseCount: 4, practiceCount: 520, accuracy: 82, interviewCount: 15, status: "active", lastLogin: "2026-07-22 14:15" },
+    { id: "stu-5", name: "周七", phone: "138****0006", email: "zhouqi@test.com", avatarColor: "#F59E0B", joined: "2026-06-15", studyDays: 30, courseCount: 2, practiceCount: 180, accuracy: 75, interviewCount: 6, status: "active", lastLogin: "2026-07-24 11:00" },
+    { id: "stu-6", name: "吴八", phone: "138****0007", email: "wuba@test.com", avatarColor: "#EC4899", joined: "2026-06-20", studyDays: 22, courseCount: 1, practiceCount: 95, accuracy: 68, interviewCount: 2, status: "active", lastLogin: "2026-07-21 16:45" },
+    { id: "stu-7", name: "郑九", phone: "138****0008", email: "zhengjiu@test.com", avatarColor: "#3B82F6", joined: "2026-07-01", studyDays: 15, courseCount: 3, practiceCount: 310, accuracy: 85, interviewCount: 10, status: "active", lastLogin: "2026-07-24 08:30" },
+    { id: "stu-8", name: "孙十", phone: "138****0009", email: "sunshi@test.com", avatarColor: "#F97316", joined: "2026-07-05", studyDays: 12, courseCount: 1, practiceCount: 65, accuracy: 70, interviewCount: 1, status: "active", lastLogin: "2026-07-23 20:00" },
+    { id: "stu-9", name: "冯小", phone: "138****0010", email: "fengxiao@test.com", avatarColor: "#14B8A6", joined: "2026-07-10", studyDays: 5, courseCount: 0, practiceCount: 20, accuracy: 55, interviewCount: 0, status: "disabled", lastLogin: "2026-07-18 11:20" },
+    { id: "stu-10", name: "陈明", phone: "138****0011", email: "chenming@test.com", avatarColor: "#EF4444", joined: "2026-07-15", studyDays: 8, courseCount: 2, practiceCount: 150, accuracy: 80, interviewCount: 5, status: "active", lastLogin: "2026-07-24 14:00" }
   ];
 
   const ADMIN_USERS = [
-    { id: 'au-1', name: '陈屿', account: 'admin', phone: '138****0001', email: 'admin@cloudpivot.ai', role: '超级管理员', roleCode: 'super_admin', status: 'active', builtin: true, lastLogin: '2026-11-11 09:08', createdAt: '2025-01-01' },
-    { id: 'au-2', name: '王敏', account: 'wangmin', phone: '139****2214', email: 'wangmin@cloudpivot.ai', role: '内容审核', roleCode: 'content_reviewer', status: 'active', builtin: false, lastLogin: '2026-11-10 17:32', createdAt: '2025-06-18' },
-    { id: 'au-3', name: '李哲', account: 'lizhe', phone: '137****5568', email: 'lizhe@cloudpivot.ai', role: '运营人员', roleCode: 'operator', status: 'active', builtin: false, lastLogin: '2026-11-11 08:50', createdAt: '2025-06-18' },
-    { id: 'au-4', name: '赵雨桐', account: 'zhaoyt', phone: '136****7730', email: 'zhaoyt@cloudpivot.ai', role: '运营人员', roleCode: 'operator', status: 'active', builtin: false, lastLogin: '2026-11-09 20:12', createdAt: '2025-07-02' },
-    { id: 'au-5', name: '孙澄', account: 'suncheng', phone: '135****8841', email: 'suncheng@cloudpivot.ai', role: '内容审核', roleCode: 'content_reviewer', status: 'disabled', builtin: false, lastLogin: '2026-10-30 11:26', createdAt: '2025-08-10' },
-    { id: 'au-6', name: '临时运营', account: 'temp_ops', phone: '188****6620', email: 'temp@cloudpivot.ai', role: '运营人员', roleCode: 'operator', status: 'disabled', builtin: false, lastLogin: '2026-09-18 15:04', createdAt: '2025-09-18' },
+    { id: "au-1", name: "管理员", account: "admin", phone: "138****8888", email: "admin@itheima.com", role: "超级管理员", roleCode: "super_admin", department: "技术部", status: "active", builtin: true, lastLogin: "2026-07-24 08:00", createdAt: "2025-01-01" },
+    { id: "au-2", name: "李编辑", account: "editor", phone: "139****6666", email: "editor@itheima.com", role: "内容编辑", roleCode: "content_reviewer", department: "教研部", status: "active", builtin: false, lastLogin: "2026-07-23 17:30", createdAt: "2025-03-15" },
+    { id: "au-3", name: "王运营", account: "ops", phone: "137****5555", email: "ops@itheima.com", role: "运营人员", roleCode: "operator", department: "运营部", status: "active", builtin: false, lastLogin: "2026-07-22 09:00", createdAt: "2025-06-01" },
+    { id: "au-4", name: "赵主管", account: "lead", phone: "136****4444", email: "lead@itheima.com", role: "管理员", roleCode: "super_admin", department: "教研部", status: "disabled", builtin: false, lastLogin: "2026-06-15 14:00", createdAt: "2025-02-10" },
+    { id: "au-5", name: "陈助理", account: "assistant", phone: "135****3333", email: "assistant@itheima.com", role: "运营人员", roleCode: "operator", department: "运营部", status: "active", builtin: false, lastLogin: "2026-07-24 09:15", createdAt: "2025-08-20" }
   ];
 
   const PERMISSION_GROUPS = [
@@ -776,43 +893,37 @@
   ];
 
   const KNOWLEDGE_BASES = ['AI 应用开发知识库', '大模型原理知识库', '机器人技术知识库', '测试与质量知识库'];
-  const TOPICS = ['大模型基础', 'RAG', 'Agent 设计', 'Prompt 工程', '模型微调', '系统设计', '性能优化', '项目管理', '多模态应用'];
+  const TOPICS = ["大模型基础", "Prompt工程", "RAG检索增强", "向量数据库", "LangChain与Agent", "模型微调", "多模态", "模型评估", "AIGC工程化"];
 
   const INTERVIEW_BANK_SEED = [
-    { id: 'iq-1', question: '什么是 RAG？它解决了大模型的哪些问题？', sourceType: 'knowledge', knowledgeBase: 'AI 应用开发知识库', docTitle: 'RAG 工程实践指南.md', number: 12, topic: 'RAG', difficulty: 'easy', tags: ['RAG', '检索增强'], createdAt: '2025-10-12' },
-    { id: 'iq-2', question: '如何评估一个 Agent 系统的效果？', sourceType: 'knowledge', knowledgeBase: 'AI 应用开发知识库', docTitle: 'Agent 设计手册.md', number: 8, topic: 'Agent 设计', difficulty: 'medium', tags: ['Agent', '评测'], createdAt: '2025-10-12' },
-    { id: 'iq-3', question: 'LoRA 与全量微调的差异及适用场景。', sourceType: 'knowledge', knowledgeBase: '大模型原理知识库', docTitle: '参数高效微调.md', number: 23, topic: '模型微调', difficulty: 'medium', tags: ['LoRA'], createdAt: '2025-10-14' },
-    { id: 'iq-4', question: '请解释 Transformer 中多头注意力的作用。', sourceType: 'knowledge', knowledgeBase: '大模型原理知识库', docTitle: 'Transformer 深入解析.md', number: 5, topic: '大模型基础', difficulty: 'medium', tags: ['Transformer'], createdAt: '2025-10-14' },
-    { id: 'iq-5', question: '如何设计一个稳定的 OTA 升级流程？', sourceType: 'manual', knowledgeBase: '机器人技术知识库', docTitle: '', number: 0, topic: '系统设计', difficulty: 'hard', tags: ['OTA', '嵌入式'], createdAt: '2025-10-19' },
-    { id: 'iq-6', question: '机器人多传感器融合时如何做时间同步？', sourceType: 'knowledge', knowledgeBase: '机器人技术知识库', docTitle: '多传感器融合.md', number: 17, topic: '系统设计', difficulty: 'hard', tags: ['传感器融合'], createdAt: '2025-10-19' },
-    { id: 'iq-7', question: '大模型输出非确定性给自动化测试带来哪些挑战？', sourceType: 'knowledge', knowledgeBase: '测试与质量知识库', docTitle: 'AI 测试方法.md', number: 9, topic: '项目管理', difficulty: 'medium', tags: ['AI 测试'], createdAt: '2025-10-20' },
-    { id: 'iq-8', question: '线上模型效果下降，你会如何定位问题？', sourceType: 'knowledge', knowledgeBase: '测试与质量知识库', docTitle: '线上效果监控.md', number: 4, topic: '性能优化', difficulty: 'medium', tags: ['监控'], createdAt: '2025-10-20' },
-    { id: 'iq-9', question: '请说明 Prompt 注入的常见方式与防护思路。', sourceType: 'markdown', knowledgeBase: 'AI 应用开发知识库', docTitle: 'prompt-security.md', number: 0, topic: 'Prompt 工程', difficulty: 'hard', tags: ['安全', 'Prompt'], createdAt: '2025-10-24' },
-    { id: 'iq-10', question: '多智能体协作有哪些典型模式？', sourceType: 'knowledge', knowledgeBase: 'AI 应用开发知识库', docTitle: '多智能体系统.md', number: 3, topic: 'Agent 设计', difficulty: 'hard', tags: ['多智能体'], createdAt: '2025-10-24' },
-    { id: 'iq-11', question: '如何设计一套模型效果评测方案？', sourceType: 'knowledge', knowledgeBase: '大模型原理知识库', docTitle: '模型评测体系.md', number: 11, topic: '大模型基础', difficulty: 'medium', tags: ['评测'], createdAt: '2025-10-26' },
-    { id: 'iq-12', question: '请谈谈你对具身智能应用落地场景的理解。', sourceType: 'manual', knowledgeBase: 'AI 应用开发知识库', docTitle: '', number: 0, topic: '具身智能应用', difficulty: 'medium', tags: ['具身智能'], createdAt: '2025-10-28' },
-    { id: 'iq-13', question: 'KV Cache 的原理与显存优化方式。', sourceType: 'knowledge', knowledgeBase: '大模型原理知识库', docTitle: '推理优化实践.md', number: 19, topic: '性能优化', difficulty: 'hard', tags: ['KV Cache'], createdAt: '2025-10-29' },
-    { id: 'iq-14', question: '一个 AI 项目从需求到上线，你会如何管理风险？', sourceType: 'manual', knowledgeBase: '测试与质量知识库', docTitle: '', number: 0, topic: '项目管理', difficulty: 'easy', tags: ['项目管理'], createdAt: '2025-11-01' },
-    { id: 'iq-15', question: '请介绍一种你熟悉的向量检索优化方法。', sourceType: 'markdown', knowledgeBase: 'AI 应用开发知识库', docTitle: 'vector-search.md', number: 0, topic: 'RAG', difficulty: 'hard', tags: ['向量检索'], createdAt: '2025-11-03' },
-    { id: 'iq-16', question: '如何看待大模型在垂直行业的落地边界？', sourceType: 'manual', knowledgeBase: 'AI 应用开发知识库', docTitle: '', number: 0, topic: '', difficulty: 'medium', tags: ['行业应用'], createdAt: '2025-11-05' },
+    { id: "q001", question: "Transformer 的自注意力机制是怎么算出注意力权重的？为什么要除以根号 dk？", answer: "用 Q 与 K 做点积得到相似度分数，除以根号 dk 做缩放，再经 Softmax 归一化成权重，最后对 V 加权求和。缩放是为了避免维度升高后点积数值过大、Softmax 梯度趋近于 0。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "大模型基础与Transformer.md", number: 1, topic: "大模型基础", difficulty: "medium", tags: ["Transformer", "自注意力"], createdAt: "2026-06-26 10:12", updatedAt: "2026-06-26 10:12", direction: "AI大模型开发", sourceMdLine: 42, referenceAnswer: "用 Q 与 K 做点积得到相似度分数，除以根号 dk 做缩放，再经 Softmax 归一化成权重，最后对 V 加权求和。缩放是为了避免维度升高后点积数值过大、Softmax 梯度趋近于 0。" },
+    { id: "q002", question: "位置编码解决的是什么问题？没有它会发生什么？", answer: "自注意力本身是位置无关的，打乱词序结果不变。位置编码把顺序信息注入输入表示，缺少它模型无法区分「我给你」和「你给我」。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "大模型基础与Transformer.md", number: 2, topic: "大模型基础", difficulty: "easy", tags: ["位置编码"], createdAt: "2026-06-26 10:15", updatedAt: "2026-06-26 10:15", direction: "AI大模型开发", sourceMdLine: 78, referenceAnswer: "自注意力本身是位置无关的，打乱词序结果不变。位置编码把顺序信息注入输入表示，缺少它模型无法区分「我给你」和「你给我」。" },
+    { id: "q003", question: "多头的意义在哪里？把注意力头的数量减到 1 会损失什么？", answer: "单个注意力头只能学到一种对齐关系，多头让模型在不同子空间并行关注语法、指代、语义等不同维度，最后拼接再做线性变换融合。减到 1 头表征能力明显下降。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "大模型基础与Transformer.md", number: 3, topic: "大模型基础", difficulty: "hard", tags: ["Transformer", "多头注意力"], createdAt: "2026-06-26 10:20", updatedAt: "2026-06-26 10:20", direction: "AI大模型开发", sourceMdLine: 121, referenceAnswer: "单个注意力头只能学到一种对齐关系，多头让模型在不同子空间并行关注语法、指代、语义等不同维度，最后拼接再做线性变换融合。减到 1 头表征能力明显下降。" },
+    { id: "q004", question: "零样本、少样本、思维链提示分别适合什么场景？", answer: "零样本适合模型已掌握的任务；少样本适合需要固定输出格式或领域口径的任务；思维链适合需要多步推理的数学、逻辑题，让模型把中间步骤写出来。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "提示词工程与RAG实战.md", number: 1, topic: "Prompt工程", difficulty: "easy", tags: ["提示词", "少样本"], createdAt: "2026-06-28 09:30", updatedAt: "2026-06-28 09:30", direction: "AI大模型开发", sourceMdLine: 15, referenceAnswer: "零样本适合模型已掌握的任务；少样本适合需要固定输出格式或领域口径的任务；思维链适合需要多步推理的数学、逻辑题，让模型把中间步骤写出来。" },
+    { id: "q005", question: "温度参数（temperature）和 top_p 有什么区别？做结构化抽取时该怎么设置？", answer: "temperature 调整整个概率分布的平滑程度，top_p 只保留累积概率最高的一部分候选词（核采样），二者通常只调一个。结构化抽取要稳定输出，建议 temperature 设 0 到 0.2。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "提示词工程与RAG实战.md", number: 2, topic: "Prompt工程", difficulty: "medium", tags: ["采样参数"], createdAt: "2026-06-28 09:34", updatedAt: "2026-07-05 14:02", direction: "AI大模型开发", sourceMdLine: 52, referenceAnswer: "temperature 调整整个概率分布的平滑程度，top_p 只保留累积概率最高的一部分候选词（核采样），二者通常只调一个。结构化抽取要稳定输出，建议 temperature 设 0 到 0.2。" },
+    { id: "q006", question: "RAG 的完整链路包含哪几个阶段？每个阶段最常见的坑是什么？", answer: "离线建库（解析、分片、向量化、入库）和在线检索（改写查询、召回、重排、拼装上下文、生成）。常见坑：分片切断了语义、只做向量召回漏掉关键词匹配、召回内容超长导致中间信息被忽略。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "提示词工程与RAG实战.md", number: 3, topic: "RAG检索增强", difficulty: "medium", tags: ["RAG", "检索链路"], createdAt: "2026-06-28 09:40", updatedAt: "2026-06-28 09:40", direction: "AI大模型开发", sourceMdLine: 96, referenceAnswer: "离线建库（解析、分片、向量化、入库）和在线检索（改写查询、召回、重排、拼装上下文、生成）。常见坑：分片切断了语义、只做向量召回漏掉关键词匹配、召回内容超长导致中间信息被忽略。" },
+    { id: "q007", question: "混合检索为什么比单纯向量检索效果好？倒数排名融合（RRF）怎么算？", answer: "向量检索擅长语义相近，BM25 擅长专有名词、编号等精确匹配，两者互补。RRF 不比较分数绝对值，只按每路结果的排名取 1/(k+rank) 相加，k 一般取 60，可以把量纲不同的两路分数安全融合。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "提示词工程与RAG实战.md", number: 4, topic: "RAG检索增强", difficulty: "hard", tags: ["混合检索", "RRF"], createdAt: "2026-06-28 09:45", updatedAt: "2026-06-28 09:45", direction: "AI大模型开发", sourceMdLine: 138, referenceAnswer: "向量检索擅长语义相近，BM25 擅长专有名词、编号等精确匹配，两者互补。RRF 不比较分数绝对值，只按每路结果的排名取 1/(k+rank) 相加，k 一般取 60，可以把量纲不同的两路分数安全融合。" },
+    { id: "q008", question: "文档分片（chunk）大小怎么定？重叠部分有什么用？", answer: "没有万能值，中文技术文档常用 300 到 800 字，配合 10% 到 20% 重叠。重叠是为了避免一句话被切断，保证跨边界的语义在至少一个分片里是完整的。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "向量数据库选型.md", number: 1, topic: "RAG检索增强", difficulty: "medium", tags: ["分片策略"], createdAt: "2026-07-02 11:00", updatedAt: "2026-07-02 11:00", direction: "AI大模型开发", sourceMdLine: 23, referenceAnswer: "没有万能值，中文技术文档常用 300 到 800 字，配合 10% 到 20% 重叠。重叠是为了避免一句话被切断，保证跨边界的语义在至少一个分片里是完整的。" },
+    { id: "q009", question: "什么是重排（Rerank）？它在链路里补上了什么？", answer: "召回阶段追求快，用双塔向量算相似度，精度有限；重排用交叉编码器把「查询 + 候选文档」一起送进模型打分，精度高但慢，所以只对前几十条候选做。它补上的是排序精度。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "向量数据库选型.md", number: 2, topic: "RAG检索增强", difficulty: "easy", tags: ["重排"], createdAt: "2026-07-02 11:05", updatedAt: "2026-07-02 11:05", direction: "AI大模型开发", sourceMdLine: 67, referenceAnswer: "召回阶段追求快，用双塔向量算相似度，精度有限；重排用交叉编码器把「查询 + 候选文档」一起送进模型打分，精度高但慢，所以只对前几十条候选做。它补上的是排序精度。" },
+    { id: "q010", question: "HNSW、IVF、PQ 三种索引各有什么取舍？", answer: "HNSW 用多层图换查询速度，召回高、内存占用大；IVF 先聚类再在若干簇内搜，省内存、需要调 nprobe；PQ 把向量分段量化压缩，最省内存但精度损失最大，常与 IVF 组合使用。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "向量数据库选型.md", number: 3, topic: "向量数据库", difficulty: "medium", tags: ["HNSW", "索引"], createdAt: "2026-07-02 11:10", updatedAt: "2026-07-02 11:10", direction: "AI大模型开发", sourceMdLine: 104, referenceAnswer: "HNSW 用多层图换查询速度，召回高、内存占用大；IVF 先聚类再在若干簇内搜，省内存、需要调 nprobe；PQ 把向量分段量化压缩，最省内存但精度损失最大，常与 IVF 组合使用。" },
+    { id: "q011", question: "余弦相似度、内积、欧氏距离三者怎么选？归一化之后有区别吗？", answer: "文本向量一般先做 L2 归一化，此时余弦相似度与内积等价，排序结果一致；欧氏距离在归一化后也与前两者单调对应。选哪个主要看数据库和索引的实现支持。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "向量数据库选型.md", number: 4, topic: "向量数据库", difficulty: "hard", tags: ["相似度度量"], createdAt: "2026-07-02 11:15", updatedAt: "2026-07-02 11:15", direction: "AI大模型开发", sourceMdLine: 149, referenceAnswer: "文本向量一般先做 L2 归一化，此时余弦相似度与内积等价，排序结果一致；欧氏距离在归一化后也与前两者单调对应。选哪个主要看数据库和索引的实现支持。" },
+    { id: "q012", question: "LangChain 里的 Chain 和 Agent 有什么本质区别？", answer: "Chain 的调用路径在编码时就固定了，是确定性的流水线；Agent 把「下一步调什么工具」交给模型决策，路径是运行时产生的，更灵活但更难控。", sourceType: "knowledge", knowledgeBase: "AI 应用开发知识库", docTitle: "LangChain与Agent开发.md", number: 1, topic: "LangChain与Agent", difficulty: "easy", tags: ["LangChain"], createdAt: "2026-06-24 15:20", updatedAt: "2026-06-24 15:20", direction: "AI应用与智能体开发", sourceMdLine: 18, referenceAnswer: "Chain 的调用路径在编码时就固定了，是确定性的流水线；Agent 把「下一步调什么工具」交给模型决策，路径是运行时产生的，更灵活但更难控。" },
+    { id: "q013", question: "Function Calling 和 ReAct 提示的区别是什么？工程上更推荐哪个？", answer: "ReAct 靠提示词让模型输出「思考 + 动作」文本，再由代码解析，格式易漂移；Function Calling 由模型原生输出结构化的工具调用参数，解析可靠。工程上优先用原生 Function Calling。", sourceType: "knowledge", knowledgeBase: "AI 应用开发知识库", docTitle: "LangChain与Agent开发.md", number: 2, topic: "LangChain与Agent", difficulty: "medium", tags: ["Function Calling", "ReAct"], createdAt: "2026-06-24 15:26", updatedAt: "2026-06-24 15:26", direction: "AI应用与智能体开发", sourceMdLine: 63, referenceAnswer: "ReAct 靠提示词让模型输出「思考 + 动作」文本，再由代码解析，格式易漂移；Function Calling 由模型原生输出结构化的工具调用参数，解析可靠。工程上优先用原生 Function Calling。" },
+    { id: "q014", question: "Agent 调用工具时陷入死循环，你会从哪些地方排查？", answer: "限制最大迭代轮次；检查工具返回是否把错误吞掉导致模型看不到失败；在提示词里给出终止条件；对重复的相同调用做去重拦截；观察是不是工具描述太模糊让模型反复试探。", sourceType: "knowledge", knowledgeBase: "AI 应用开发知识库", docTitle: "LangChain与Agent开发.md", number: 3, topic: "LangChain与Agent", difficulty: "hard", tags: ["Agent", "稳定性"], createdAt: "2026-06-24 15:31", updatedAt: "2026-07-08 10:40", direction: "AI应用与智能体开发", sourceMdLine: 112, referenceAnswer: "限制最大迭代轮次；检查工具返回是否把错误吞掉导致模型看不到失败；在提示词里给出终止条件；对重复的相同调用做去重拦截；观察是不是工具描述太模糊让模型反复试探。" },
+    { id: "q015", question: "LoRA 微调为什么能省显存？rank 一般怎么取？", answer: "LoRA 冻结原始权重，只在旁路插入低秩矩阵 A、B 参与训练，可训练参数量大幅下降，优化器状态和梯度显存随之降低。rank 常用 8 到 64，任务越复杂、与预训练分布差得越远，就取越大。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "大模型基础与Transformer.md", number: 4, topic: "模型微调", difficulty: "hard", tags: ["LoRA", "PEFT"], createdAt: "2026-06-26 10:35", updatedAt: "2026-06-26 10:35", direction: "AI大模型开发", sourceMdLine: 176, referenceAnswer: "LoRA 冻结原始权重，只在旁路插入低秩矩阵 A、B 参与训练，可训练参数量大幅下降，优化器状态和梯度显存随之降低。rank 常用 8 到 64，任务越复杂、与预训练分布差得越远，就取越大。" },
+    { id: "q016", question: "多模态检索里，图文向量怎么对齐到同一个空间？", answer: "用对比学习在成对的图像和文本上训练双塔编码器，让匹配的图文对在共享空间里距离更近、不匹配的更远（如 CLIP）。检索时图搜文、文搜图都落到同一套相似度计算上。", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "提示词工程与RAG实战.md", number: 5, topic: "多模态", difficulty: "medium", tags: ["CLIP", "跨模态"], createdAt: "2026-06-28 09:52", updatedAt: "2026-06-28 09:52", direction: "AI大模型开发", sourceMdLine: 186, referenceAnswer: "用对比学习在成对的图像和文本上训练双塔编码器，让匹配的图文对在共享空间里距离更近、不匹配的更远（如 CLIP）。检索时图搜文、文搜图都落到同一套相似度计算上。" },
+    { id: "q017", question: "LangGraph 里节点和边的运行模型是什么？和普通 Chain 有什么不同？", answer: "把流程建模成状态图：节点是函数，接收并返回状态，边决定下一步走哪；条件边让分支由状态决定，还支持循环与中断。普通 Chain 是线性有向无环，做不了循环与人工介入。", sourceType: "knowledge", knowledgeBase: "AI 应用开发知识库", docTitle: "LangChain与Agent开发.md", number: 4, topic: "LangGraph", difficulty: "hard", tags: ["LangGraph", "状态图"], createdAt: "2026-06-24 15:40", updatedAt: "2026-06-24 15:40", direction: "AI应用与智能体开发", sourceMdLine: 168, referenceAnswer: "把流程建模成状态图：节点是函数，接收并返回状态，边决定下一步走哪；条件边让分支由状态决定，还支持循环与中断。普通 Chain 是线性有向无环，做不了循环与人工介入。" },
+    { id: "q018", question: "Checkpointer 在 LangGraph 里解决什么问题？", answer: "它把每一步的状态持久化，于是图可以在中断后按 thread_id 恢复继续跑，也为人工审批这类「暂停—外部输入—继续」的场景提供支撑，同时可用同一份 checkpoint 做回放调试。", sourceType: "knowledge", knowledgeBase: "AI 应用开发知识库", docTitle: "LangChain与Agent开发.md", number: 5, topic: "LangGraph", difficulty: "medium", tags: ["LangGraph", "状态持久化"], createdAt: "2026-06-24 15:45", updatedAt: "2026-06-24 15:45", direction: "AI应用与智能体开发", sourceMdLine: 219, referenceAnswer: "它把每一步的状态持久化，于是图可以在中断后按 thread_id 恢复继续跑，也为人工审批这类「暂停—外部输入—继续」的场景提供支撑，同时可用同一份 checkpoint 做回放调试。" },
+    { id: "q019", question: "这段文档讲了向量库的部署方式，但标题没有落在词表里，具体属于哪一类？", answer: "", sourceType: "knowledge", knowledgeBase: "大模型原理知识库", docTitle: "向量数据库选型.md", number: 5, topic: "", difficulty: "easy", tags: ["部署"], createdAt: "2026-07-02 11:22", updatedAt: "2026-07-02 11:22", direction: "AI大模型开发", sourceMdLine: 201, referenceAnswer: "" },
+    { id: "q020", question: "解析出来的这道题是文档里的一个表格片段，没给出主题，该怎么处理？", answer: "", sourceType: "knowledge", knowledgeBase: "AI 应用开发知识库", docTitle: "LangChain与Agent开发.md", number: 6, topic: "", difficulty: "medium", tags: [], createdAt: "2026-06-24 15:50", updatedAt: "2026-06-24 15:50", direction: "AI应用与智能体开发", sourceMdLine: 264, referenceAnswer: "" }
   ];
 
   const LOG_SEED = [
-    { id: 'lg-1', user: '陈屿', action: '登录系统', target: '管理后台', ip: '192.168.1.16', time: '2026-11-11 09:08:12', type: 'login', detail: '超级管理员通过账号密码登录管理后台' },
-    { id: 'lg-2', user: '李哲', action: '上架题目', target: '题目 #Q1024', ip: '192.168.1.23', time: '2026-11-11 08:56:40', type: 'edit', detail: '将题目「什么是 RAG？」从待审核调整为已上架' },
-    { id: 'lg-3', user: '王敏', action: '审核通过', target: '题目 #Q1021', ip: '192.168.1.31', time: '2026-11-10 18:22:05', type: 'edit', detail: '审核通过题目「LoRA 的主要优势是什么？」' },
-    { id: 'lg-4', user: '李哲', action: '新增课程', target: '课程「大模型应用安全与合规指南」', ip: '192.168.1.23', time: '2026-11-10 17:45:31', type: 'create', detail: '在 B 站课程库新增课程，来源：其他' },
-    { id: 'lg-5', user: '赵雨桐', action: '禁用学员', target: '学员「陈一诺」', ip: '192.168.1.48', time: '2026-11-10 16:10:18', type: 'disable', detail: '因账号异常操作，临时禁用学员账号' },
-    { id: 'lg-6', user: '陈屿', action: '修改系统设置', target: '基本信息设置', ip: '192.168.1.16', time: '2026-11-10 11:32:50', type: 'edit', detail: '更新平台名称为「云枢智学」' },
-    { id: 'lg-7', user: '王敏', action: '审核不通过', target: '题目 #Q1018', ip: '192.168.1.31', time: '2026-11-09 20:08:14', type: 'edit', detail: '审核不通过，原因：选项表述不严谨' },
-    { id: 'lg-8', user: '李哲', action: '新增学习路线', target: '路线「AI 短剧创作实战路线」', ip: '192.168.1.23', time: '2026-11-09 15:40:02', type: 'create', detail: '创建路线并关联 1 门课程' },
-    { id: 'lg-9', user: '赵雨桐', action: '重置密码', target: '用户「孙澄」', ip: '192.168.1.48', time: '2026-11-08 17:22:36', type: 'edit', detail: '将用户密码重置为系统默认密码' },
-    { id: 'lg-10', user: '陈屿', action: '新增用户', target: '用户「temp_ops」', ip: '192.168.1.16', time: '2026-11-08 10:15:22', type: 'create', detail: '新增运营人员账号，状态：已启用' },
-    { id: 'lg-11', user: '李哲', action: '删除题目', target: '题目 #Q1009', ip: '192.168.1.23', time: '2026-11-07 19:05:48', type: 'delete', detail: '删除重复录制的题目（逻辑删除）' },
-    { id: 'lg-12', user: '王敏', action: '导出题库', target: '题库管理', ip: '192.168.1.31', time: '2026-11-07 14:28:11', type: 'other', detail: '导出当前筛选条件下的题目 Excel' },
-    { id: 'lg-13', user: '赵雨桐', action: '启用学员', target: '学员「许知远」', ip: '192.168.1.48', time: '2026-11-06 09:52:30', type: 'disable', detail: '恢复学员账号使用权限' },
-    { id: 'lg-14', user: '陈屿', action: '删除课程', target: '课程「过时的 Prompt 教程」', ip: '192.168.1.16', time: '2026-11-05 16:44:17', type: 'delete', detail: '删除课程并解除路线关联（逻辑删除）' },
-    { id: 'lg-15', user: '李哲', action: '导入面试题', target: '面试题库管理', ip: '192.168.1.23', time: '2026-11-05 11:20:09', type: 'create', detail: '从 Markdown 文件导入 26 道面试题' },
+    { id: "lg-1", user: "管理员", action: "登录系统", target: "-", ip: "192.168.1.1", time: "2026-07-24 08:00:00", type: "login", detail: "登录系统：-" },
+    { id: "lg-2", user: "管理员", action: "新增题目", target: "HashMap的底层数据结构", ip: "192.168.1.1", time: "2026-07-24 08:30:00", type: "create", detail: "新增题目：HashMap的底层数据结构" },
+    { id: "lg-3", user: "管理员", action: "修改角色", target: "学员角色权限", ip: "192.168.1.1", time: "2026-07-24 09:15:00", type: "edit", detail: "修改角色：学员角色权限" },
+    { id: "lg-4", user: "管理员", action: "禁用用户", target: "王五", ip: "192.168.1.1", time: "2026-07-23 10:00:00", type: "disable", detail: "禁用用户：王五" },
+    { id: "lg-5", user: "管理员", action: "上传文档", target: "大模型部署与推理优化.md", ip: "192.168.1.1", time: "2026-07-23 14:20:00", type: "create", detail: "上传文档：大模型部署与推理优化.md" }
   ];
 
   const ADMIN_SEED = {
@@ -909,7 +1020,7 @@
       stageId: q.stageId,
       type: q.type,
       difficulty: q.difficulty,
-      status: statusPool[i % statusPool.length],
+      status: q.status || statusPool[i % statusPool.length],
       createdAt: '2025-10-' + String(1 + (i % 28)).padStart(2, '0') + ' 10:' + String(10 + (i % 40)).padStart(2, '0'),
       attempts: q.attempts,
       correctRate: q.correctRate,
@@ -938,10 +1049,11 @@
     KNOWLEDGE_BASES,
     TOPICS,
     ADMIN_QUESTIONS: buildAdminQuestions(),
-    ADMIN_DEMO_USER: { name: '陈屿', account: 'admin', role: '超级管理员', avatarColor: '#6366F1' },
+    ADMIN_DEMO_USER: { name: "管理员", account: 'admin', role: '超级管理员', avatarColor: '#6366F1' },
     DEMO_STUDENT: {
-      id: 'stu-demo', name: '林小满', phone: '13800136621', email: 'linxiaoman@example.com',
-      gender: '保密', avatar: '', role: '学员', joined: '2025-08-12', avatarColor: '#6366F1',
+      id: 'stu-demo', name: '黑马学员', phone: '138****8888', email: 'student@itheima.com',
+      gender: '保密', avatar: '', role: '学员', joined: '2026-06-01', avatarColor: '#6366F1',
+      studyDays: 54, dailyGoal: 20,
     },
     helpers: {
       getQuestion, getSubject, getStage, getStageById, getCourse, getCoursesByIds, courseCover,
@@ -966,8 +1078,8 @@
     interviewSession: 'cp_interview_session_v1',
     interviewResult: 'cp_interview_result',
     interviewHistory: 'cp_interview_history_v1',
-    mistakes: 'cp_mistakes_v1',
-    adminDB: 'cp_admin_db_v2',
+    mistakes: 'cp_mistakes_v2',
+    adminDB: 'cp_admin_db_v3',
   };
 
   /* ---------------- 基础工具 ---------------- */
@@ -1455,7 +1567,7 @@
   function seedDB() {
     const base = clone(window.CloudData.ADMIN_SEED);
     return {
-      version: 2,
+      version: 3,
       subjects: clone(window.CloudData.SUBJECTS),
       courses: clone(window.CloudData.COURSES),
       roadmaps: clone(window.CloudData.ROADMAPS),
@@ -1471,7 +1583,7 @@
 
   function getDB() {
     let db = storage.get(KEYS.adminDB, null);
-    if (!db || db.version !== 2 || !Array.isArray(db.subjects)) {
+    if (!db || db.version !== 3 || !Array.isArray(db.subjects)) {
       db = seedDB();
       storage.set(KEYS.adminDB, db);
     }

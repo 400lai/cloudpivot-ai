@@ -104,7 +104,9 @@
   function init() {
     const user = App.requireAuth();
     if (!user) return;
-    records = App.getInterviewHistory().slice().sort((a, b) => parseTime(b.date) - parseTime(a.date));
+    records = App.getInterviewHistory()
+      .filter(r => r.status !== 'in_progress')
+      .sort((a, b) => parseTime(b.date) - parseTime(a.date));
     renderStats();
     renderList();
   }

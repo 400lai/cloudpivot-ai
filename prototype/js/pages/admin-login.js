@@ -17,7 +17,7 @@
       if (!okAccount || !okPassword) return;
 
       App.setAdmin({
-        name: '陈屿',
+        name: '管理员',
         account: account.value.trim(),
         role: '超级管理员',
         avatarColor: '#6366F1',
