@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据看板 · 云枢智学管理后台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%234F46E5%27/%3E%3Cstop offset=%271%27 stop-color=%27%238B5CF6%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-size=%2734%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27bold%27%3E云%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="dashboard" data-page-title="数据看板" data-crumb="概览">
+<div class="admin-shell">
+  <aside class="admin-sidebar" id="adminSidebar"></aside>
+  <div class="admin-main">
+    <header class="admin-topbar" id="adminTopbar"></header>
+    <main class="admin-content" id="adminContent">
+
+      <div class="admin-page-head">
+        <div><h1>数据概览</h1><p>平台运行概况与近期动态，数据仅供演示</p></div>
+        <div class="admin-page-actions">
+          <button class="btn btn-outline btn-sm" id="refreshDashboard"><span data-icon="refresh" data-icon-size="14"></span> 刷新数据</button>
+        </div>
+      </div>
+
+      <div class="admin-stat-grid" id="dashboardStats"></div>
+
+      <div class="dash-quick">
+        <span class="dash-quick-label">快捷操作</span>
+        <a class="quick-action" href="routes.html"><span data-icon="route" data-icon-size="14"></span> 管理学习路线</a>
+        <a class="quick-action" href="routes.html?new=1"><span data-icon="plus" data-icon-size="14"></span> 创建新路线</a>
+        <a class="quick-action" href="courses.html"><span data-icon="video" data-icon-size="14"></span> B站课程库</a>
+      </div>
+
+      <div class="dash-grid">
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <div><h3>用户增长趋势</h3><p>新增注册学员数量</p></div>
+            <div class="chart-range" id="growthRange">
+              <button data-range="7" class="active">7 天</button>
+              <button data-range="30">30 天</button>
+              <button data-range="90">90 天</button>
+            </div>
+          </div>
+          <div class="admin-card-body">
+            <div class="line-chart-wrap" id="growthChart"></div>
+            <table class="sr-only" id="growthTable">
+              <caption>用户增长趋势</caption>
+              <thead><tr><th>日期</th><th>新增用户</th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <div class="chart-foot"><span>统计口径：当期新增注册学员</span><span>末端数据为最新值</span></div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-head">
+            <div><h3>题目学科分布</h3><p>按学科统计题目数量</p></div>
+            <span class="badge badge-brand" id="distTotal">0 题</span>
+          </div>
+          <div class="admin-card-body">
+            <div class="dist-list" id="subjectDist"></div>
+            <table class="sr-only" id="distTable">
+              <caption>题目学科分布</caption>
+              <thead><tr><th>学科</th><th>题目数量</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div class="admin-card-head">
+          <div><h3>最近活动</h3><p>来自管理后台的最近操作记录</p></div>
+          <a class="section-link" href="logs.html">查看全部 <span data-icon="arrowRight" data-icon-size="13"></span></a>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table activity-table">
+            <thead><tr><th>用户</th><th>操作</th><th>详情</th><th>时间</th></tr></thead>
+            <tbody id="activityTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../js/common.js"></script>
+<script src="../js/admin.js"></script>
+<script src="../js/pages/admin-dashboard.js"></script>
+</body>
+</html>

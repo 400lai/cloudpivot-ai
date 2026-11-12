@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 · 云枢智学</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%234F46E5%27/%3E%3Cstop offset=%271%27 stop-color=%27%238B5CF6%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-size=%2734%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27bold%27%3E云%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+</head>
+<body class="auth-page">
+
+<div class="auth-shell">
+  <aside class="auth-aside">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">云</span>
+      <span><span class="brand-name">云枢智学</span><span class="brand-sub" style="display:block">CLOUDPIVOT AI</span></span>
+    </a>
+    <div class="auth-aside-body">
+      <span class="eyebrow" style="color:#c7d2fe">Welcome Back</span>
+      <h1>每一次练习，<br>都在为 Offer 积累底气。</h1>
+      <p>登录继续你的学习进度。题库、错题、路线与面试记录都会为你保留。</p>
+      <div class="auth-points">
+        <div class="auth-point"><span class="icon-tile" data-icon="book" data-icon-size="17"></span><div><b>8 大 AI 技术方向</b><span>全题型题库，持续更新</span></div></div>
+        <div class="auth-point"><span class="icon-tile" data-icon="mic" data-icon-size="17"></span><div><b>AI 模拟面试</b><span>实时评分与能力报告</span></div></div>
+        <div class="auth-point"><span class="icon-tile" data-icon="route" data-icon-size="17"></span><div><b>系统学习路线</b><span>精选 B 站课程，按序进阶</span></div></div>
+      </div>
+    </div>
+    <div class="auth-quote">
+      “用了两周，最明显的变化是回答问题时开始有结构了。AI 面试报告里的待提升项很具体，知道下一步该补什么。”
+      <div class="quote-user"><span class="avatar sm" style="background:rgba(255,255,255,.16)">周</span> 周予安 · AI 应用开发学员</div>
+    </div>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="auth-card-head">
+        <h1>欢迎回来</h1>
+        <p>登录云枢智学，继续你的训练计划</p>
+      </div>
+
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" data-login-tab="password" role="tab">账号密码登录</button>
+        <button class="auth-tab" data-login-tab="code" role="tab">手机验证码登录</button>
+      </div>
+
+      <form class="auth-form" id="passwordForm" novalidate>
+        <div class="field">
+          <label class="field-label" for="account">手机号 / 邮箱</label>
+          <div class="input-wrap">
+            <span data-icon="user" data-icon-size="17"></span>
+            <input class="input" id="account" type="text" placeholder="请输入手机号或邮箱" value="13800136621" autocomplete="username">
+          </div>
+          <p class="field-error">请输入手机号或邮箱</p>
+        </div>
+        <div class="field">
+          <div class="row-between" style="gap:8px">
+            <label class="field-label" for="password">密码</label>
+            <a class="link small" href="forgot-password.html">忘记密码？</a>
+          </div>
+          <div class="input-wrap">
+            <span data-icon="lock" data-icon-size="17"></span>
+            <input class="input" id="password" type="password" placeholder="请输入密码" value="cloudpivot" style="padding-right:44px" autocomplete="current-password">
+            <button type="button" class="input-action" data-toggle-password="#password" aria-label="显示密码" data-icon="eye" data-icon-size="16" style="padding:4px"></button>
+          </div>
+          <p class="field-error">请输入密码</p>
+        </div>
+        <div class="auth-row">
+          <label class="checkbox"><input type="checkbox" id="remember" checked><span class="box"></span><span>记住我</span></label>
+          <span class="small muted">登录即表示同意《用户协议》</span>
+        </div>
+        <button class="btn btn-primary btn-block auth-submit" type="submit">登录</button>
+      </form>
+
+      <form class="auth-form hidden" id="codeForm" novalidate>
+        <div class="field">
+          <label class="field-label" for="loginPhone">手机号</label>
+          <div class="input-wrap">
+            <span data-icon="phone" data-icon-size="17"></span>
+            <input class="input" id="loginPhone" type="tel" placeholder="请输入 11 位手机号" maxlength="11">
+          </div>
+          <p class="field-error">请输入正确的 11 位手机号</p>
+        </div>
+        <div class="field">
+          <label class="field-label" for="loginCode">验证码</label>
+          <div class="row gap-10">
+            <input class="input" id="loginCode" type="text" placeholder="请输入 6 位验证码" maxlength="6" style="flex:1">
+            <button class="btn btn-outline" type="button" id="loginCodeBtn" style="width:118px">获取验证码</button>
+          </div>
+          <p class="field-error">请输入 6 位验证码</p>
+        </div>
+        <button class="btn btn-primary btn-block auth-submit" type="submit">登录</button>
+      </form>
+
+      <div class="auth-oauth">
+        <div class="hr-text">其他登录方式</div>
+        <div class="oauth-btns">
+          <button class="oauth-btn" data-oauth="微信"><span class="oauth-icon" style="background:#22c55e">微</span>微信</button>
+          <button class="oauth-btn" data-oauth="QQ"><span class="oauth-icon" style="background:#38bdf8">Q</span>QQ</button>
+          <button class="oauth-btn" data-oauth="GitHub"><span class="oauth-icon" style="background:#111827">G</span>GitHub</button>
+        </div>
+      </div>
+
+      <div class="auth-bottom">还没有账号？<a href="register.html">立即注册</a></div>
+      <div class="auth-demo-tip">原型演示：任意非空账号密码均可登录，页面已预填演示账号。</div>
+    </div>
+  </main>
+</div>
+
+<script src="../js/common.js"></script>
+<script src="../js/pages/auth.js"></script>
+</body>
+</html>

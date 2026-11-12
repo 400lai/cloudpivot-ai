@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模拟面试 · 云枢智学</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%234F46E5%27/%3E%3Cstop offset=%271%27 stop-color=%27%238B5CF6%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-size=%2734%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27bold%27%3E云%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+</head>
+<body class="room-body" data-auth="required">
+
+<div class="room-top">
+  <button class="room-back" id="exitInterviewBtn"><span data-icon="arrowLeft" data-icon-size="16"></span> 退出面试</button>
+  <div class="room-title">
+    <b>AI 模拟面试</b>
+    <span class="badge badge-brand" id="roomDirection">AI应用与智能体开发</span>
+    <span class="badge badge-amber" id="roomDifficulty">中等</span>
+  </div>
+  <div class="room-top-meta">
+    <span class="room-net" id="roomNet"><span data-icon="wifi" data-icon-size="13"></span> 在线</span>
+    <span class="room-timer"><span data-icon="clock" data-icon-size="15"></span><span id="roomTimer">00:00</span></span>
+    <span class="room-progress-text">题目 <b id="roomProgress">1 / 10</b></span>
+    <button class="voice-toggle" id="togglePanels"><span data-icon="maximize" data-icon-size="14"></span> 收起面板</button>
+    <button class="voice-toggle" id="voiceToggle"><span data-icon="volume" data-icon-size="14"></span> 语音播报</button>
+    <button class="btn btn-outline btn-sm" id="endInterviewBtn" style="color:var(--red-strong);border-color:#fecaca">结束面试</button>
+  </div>
+</div>
+
+<div class="room-layout">
+  <aside class="room-left">
+    <div class="room-panel-title">面试进度</div>
+    <div class="room-progress-card">
+      <div class="big"><span id="bigAnswered">0</span><span> / <span id="bigTotal">10</span> 题</span></div>
+      <div class="progress"><span id="answeredBar" style="width:0%"></span></div>
+      <div class="room-kv" style="margin-top:10px"><span>平均得分</span><b id="avgScoreLeft">—</b></div>
+      <div class="room-kv"><span>已用时间</span><b id="elapsedLeft">00:00</b></div>
+    </div>
+    <div class="room-kv" style="margin-top:14px"><span>本题剩余</span><b id="questionRemaining" style="font-variant-numeric:tabular-nums">05:00</b></div>
+    <div class="room-kv"><span>面试难度</span><b id="difficultyLeft">中等</b></div>
+    <div class="room-tip">
+      回答时尽量先给结论，再展开 2–3 个要点，最后补充案例。每题 5 分钟，超时将自动提交。
+    </div>
+  </aside>
+
+  <main class="room-main">
+    <div class="chat-area" id="chatArea">
+      <div class="chat-inner" id="chatInner"></div>
+    </div>
+
+    <div class="composer">
+      <div class="composer-inner">
+        <textarea id="composerInput" placeholder="输入你的回答，或使用语音作答…" rows="1"></textarea>
+        <div class="composer-tools">
+          <div class="left">
+            <button class="composer-btn" id="voiceInputBtn" title="语音输入"><span data-icon="mic" data-icon-size="15"></span> 语音输入</button>
+            <button class="composer-btn" id="replayLastBtn" title="重播上一题"><span data-icon="volume" data-icon-size="15"></span> 重播</button>
+          </div>
+          <button class="composer-send" id="sendBtn" disabled>发送 <span data-icon="send" data-icon-size="14"></span></button>
+        </div>
+      </div>
+      <div class="composer-hint"><span>Enter 发送 · Shift + Enter 换行</span><span id="charCount">0 字</span></div>
+    </div>
+  </main>
+
+  <aside class="room-right">
+    <div class="room-right-head"><h3>面试题目</h3><span class="badge badge-outline" id="questionListCount">10 题</span></div>
+    <div class="room-right-body">
+      <div class="interview-q-list" id="questionList"></div>
+      <div class="room-stat">
+        <div class="room-panel-title" style="margin-bottom:8px">面试统计</div>
+        <div class="room-stat-grid" id="roomStats"></div>
+      </div>
+    </div>
+    <div class="room-right-foot">点击已作答题目可定位到对应对话。AI 评分仅供训练参考。</div>
+  </aside>
+</div>
+
+<script src="../js/common.js"></script>
+<script src="../js/pages/interview-room.js"></script>
+</body>
+</html>
