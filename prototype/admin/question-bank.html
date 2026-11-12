@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>面试题库管理 · 云枢智学管理后台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%234F46E5%27/%3E%3Cstop offset=%271%27 stop-color=%27%238B5CF6%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-size=%2734%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27bold%27%3E云%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="interview-questions" data-page-title="面试题库管理" data-crumb="内容管理">
+<div class="admin-shell">
+  <aside class="admin-sidebar" id="adminSidebar"></aside>
+  <div class="admin-main">
+    <header class="admin-topbar" id="adminTopbar"></header>
+    <main class="admin-content" id="adminContent">
+
+      <div class="admin-page-head">
+        <div><h1>面试题库管理</h1><p>跨知识库的面试题总览，题干与参考答案只读，仅维护主题与难度</p></div>
+        <div class="admin-page-actions">
+          <button class="btn btn-outline btn-sm" id="importInterviewBtn"><span data-icon="upload" data-icon-size="14"></span> 手动导入</button>
+          <button class="btn btn-primary btn-sm" id="addInterviewBtn"><span data-icon="plus" data-icon-size="15"></span> 录入题目</button>
+        </div>
+      </div>
+
+      <div class="admin-filter">
+        <div class="input-wrap search-input"><span data-icon="search" data-icon-size="16"></span>
+          <input class="input" id="iqSearch" placeholder="搜索题干" style="padding-left:38px">
+        </div>
+        <select class="select" id="iqKnowledge"><option value="all">全部知识库</option></select>
+        <select class="select" id="iqTopic"><option value="all">全部主题</option></select>
+        <select class="select" id="iqDifficulty"><option value="all">全部难度</option><option value="easy">简单</option><option value="medium">中等</option><option value="hard">困难</option></select>
+        <label class="checkbox" id="uncategorizedWrap"><input type="checkbox" id="iqUncategorized"><span class="box"></span><span>只看未分类</span></label>
+        <button class="btn btn-primary btn-sm" id="iqQueryBtn">查询</button>
+        <button class="btn btn-outline btn-sm" id="iqResetBtn">重置</button>
+      </div>
+
+      <div class="admin-card">
+        <div class="table-wrap">
+          <table class="data-table" style="width:100%">
+            <thead><tr><th style="width:44%">题目</th><th>来源</th><th style="width:88px">难度</th><th style="width:140px">主题</th><th style="width:120px">操作</th></tr></thead>
+            <tbody id="interviewQuestionTable"></tbody>
+          </table>
+        </div>
+        <div class="table-pagination" id="interviewQuestionPagination"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../js/common.js"></script>
+<script src="../js/admin.js"></script>
+<script src="../js/pages/admin-interview-questions.js"></script>
+</body>
+</html>

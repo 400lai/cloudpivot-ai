@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>题库管理 · 云枢智学管理后台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%234F46E5%27/%3E%3Cstop offset=%271%27 stop-color=%27%238B5CF6%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-size=%2734%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27bold%27%3E云%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="questions" data-page-title="题库管理" data-crumb="内容管理">
+<div class="admin-shell">
+  <aside class="admin-sidebar" id="adminSidebar"></aside>
+  <div class="admin-main">
+    <header class="admin-topbar" id="adminTopbar"></header>
+    <main class="admin-content" id="adminContent">
+
+      <div class="admin-page-head">
+        <div><h1>题库管理</h1><p>题目挂载在阶段下，审核通过后上架展示给学员</p></div>
+        <div class="admin-page-actions">
+          <button class="btn btn-outline btn-sm" id="importQuestionsBtn"><span data-icon="upload" data-icon-size="14"></span> 导入 Excel</button>
+          <button class="btn btn-outline btn-sm" id="exportQuestionsBtn"><span data-icon="download" data-icon-size="14"></span> 导出 Excel</button>
+          <button class="btn btn-primary btn-sm" id="addQuestionBtn"><span data-icon="plus" data-icon-size="15"></span> 新增题目</button>
+        </div>
+      </div>
+
+      <div class="admin-stat-grid" id="questionStats"></div>
+
+      <div class="admin-filter">
+        <div class="input-wrap search-input"><span data-icon="search" data-icon-size="16"></span>
+          <input class="input" id="qSearch" placeholder="搜索题干或标签" style="padding-left:38px">
+        </div>
+        <select class="select" id="qStageFilter"><option value="all">全部阶段</option></select>
+        <select class="select" id="qTypeFilter"><option value="all">全部类型</option><option value="single">单选题</option><option value="multiple">多选题</option><option value="boolean">判断题</option><option value="short">简答题</option></select>
+        <select class="select" id="qDiffFilter"><option value="all">全部难度</option><option value="easy">简单</option><option value="medium">中等</option><option value="hard">困难</option></select>
+        <select class="select" id="qStatusFilter"><option value="all">全部状态</option><option value="online">已上架</option><option value="offline">已下架</option><option value="pending">待审核</option><option value="draft">草稿</option><option value="rejected">已驳回</option></select>
+        <span class="small muted" id="qResultCount" style="margin-left:auto"></span>
+      </div>
+
+      <div class="admin-batch-bar" id="questionBatchBar">
+        <span>已选择 <b id="questionBatchCount">0</b> 道题目</span>
+        <div class="spacer"></div>
+        <button class="btn btn-sm" data-batch="online"><span data-icon="check" data-icon-size="13"></span> 批量上架</button>
+        <button class="btn btn-sm" data-batch="offline"><span data-icon="eyeOff" data-icon-size="13"></span> 批量下架</button>
+        <button class="btn btn-sm" data-batch="delete" style="color:var(--red-strong);border-color:#fecaca"><span data-icon="trash" data-icon-size="13"></span> 批量删除</button>
+        <button class="btn btn-sm btn-ghost" id="clearQuestionSelection">取消选择</button>
+      </div>
+
+      <div class="admin-card">
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr>
+              <th class="col-check"><label class="checkbox" style="justify-content:center"><input type="checkbox" id="selectPageQuestions"><span class="box"></span></label></th>
+              <th style="width:78px">ID</th><th>题目</th><th>阶段</th><th>类型</th><th>难度</th><th>状态</th><th>创建时间</th><th style="width:132px">操作</th>
+            </tr></thead>
+            <tbody id="questionTable"></tbody>
+          </table>
+        </div>
+        <div class="table-pagination" id="questionPagination"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script src="../js/common.js"></script>
+<script src="../js/admin.js"></script>
+<script src="../js/pages/admin-questions.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云枢智学 · 可交互页面原型</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%234F46E5%27/%3E%3Cstop offset=%271%27 stop-color=%27%238B5CF6%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-size=%2734%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27bold%27%3E云%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <style>
+    .entry-page { min-height: 100vh; overflow-x: hidden; position: relative; background: var(--bg); }
+    .entry-page::before {
+      content: ""; position: absolute; inset: -220px -120px auto -120px; height: 780px; pointer-events: none;
+      background:
+        radial-gradient(620px 380px at 15% 25%, rgba(99,102,241,.18), transparent 68%),
+        radial-gradient(540px 360px at 86% 4%, rgba(139,92,246,.15), transparent 66%),
+        radial-gradient(440px 300px at 56% 48%, rgba(6,182,212,.08), transparent 68%);
+    }
+    .entry-page::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(rgba(91,91,214,.10) 1px, transparent 1px);
+      background-size: 30px 30px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.4), transparent 52%);
+      -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,.4), transparent 52%);
+    }
+    .entry-header { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 0; }
+    .entry-main { position: relative; z-index: 2; padding-bottom: 46px; }
+    .entry-hero { max-width: 780px; padding: 44px 0 34px; }
+    .entry-hero h1 { margin-top: 18px; font-size: clamp(38px, 5vw, 58px); line-height: 1.12; letter-spacing: -.045em; font-weight: 800; }
+    .entry-hero p { max-width: 640px; margin-top: 18px; color: var(--muted); font-size: 15px; line-height: 1.85; }
+    .entry-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .entry-tag { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 8px; background: rgba(255,255,255,.82); border: 1px solid var(--line); color: var(--ink-3); font-size: 11.5px; font-weight: 600; }
+    .entry-tag b { color: var(--brand-600); }
+    .entry-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
+    .entry-card {
+      position: relative; display: flex; flex-direction: column; min-height: 446px;
+      padding: 26px; background: rgba(255,255,255,.94); border: 1px solid var(--line);
+      border-radius: 24px; box-shadow: var(--shadow-sm); overflow: hidden;
+      transition: transform .24s var(--ease), box-shadow .24s var(--ease), border-color .24s var(--ease);
+    }
+    .entry-card:hover { transform: translateY(-5px); border-color: var(--brand-200); box-shadow: var(--shadow-lg); }
+    .entry-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--brand-500), var(--violet)); }
+    .entry-card.admin::before { background: linear-gradient(90deg, #0f172a, var(--brand-500) 60%, var(--violet)); }
+    .entry-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+    .entry-card-head .icon-tile { width: 48px; height: 48px; border-radius: 14px; }
+    .entry-card-badge { display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 9px; border-radius: 7px; background: var(--surface-2); border: 1px solid var(--line-2); color: var(--muted); font-size: 10.5px; font-weight: 650; white-space: nowrap; }
+    .entry-card h2 { margin-top: 16px; font-size: 24px; letter-spacing: -.03em; }
+    .entry-card .entry-desc { margin-top: 7px; color: var(--muted); font-size: 12.5px; line-height: 1.8; }
+    .entry-modules { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .entry-modules span { padding: 4px 8px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line-2); color: var(--muted); font-size: 10.5px; }
+    .entry-visual { position: relative; height: 158px; margin-top: 20px; border-radius: 15px; background: linear-gradient(145deg, #f7f7ff, #eef0ff); border: 1px solid var(--line-2); overflow: hidden; }
+    .entry-card.admin .entry-visual { background: linear-gradient(145deg, #f8fafc, #eef2ff); }
+    .mini-window { position: absolute; left: 16px; right: 16px; top: 14px; bottom: -16px; background: var(--surface); border: 1px solid var(--line); border-radius: 11px; box-shadow: 0 12px 26px -18px rgba(17,24,39,.3); overflow: hidden; }
+    .mini-top { display: flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-bottom: 1px solid var(--line-2); background: var(--surface-2); }
+    .mini-top i { width: 5px; height: 5px; border-radius: 50%; background: #d7dbe5; }
+    .mini-top i:first-child { background: #fca5a5; }
+    .mini-body { display: flex; height: calc(100% - 22px); }
+    .mini-side { width: 46px; flex: none; padding: 8px 6px; border-right: 1px solid var(--line-2); display: flex; flex-direction: column; gap: 5px; }
+    .mini-side span { height: 5px; border-radius: 3px; background: var(--line); }
+    .mini-side span:first-child { width: 70%; background: var(--brand-300); }
+    .mini-content { flex: 1; padding: 9px; display: flex; flex-direction: column; gap: 6px; }
+    .mini-hero { height: 28px; border-radius: 6px; background: linear-gradient(100deg, var(--brand-100), var(--violet-soft)); }
+    .mini-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+    .mini-cards span { height: 20px; border-radius: 5px; background: var(--surface-2); border: 1px solid var(--line-2); }
+    .mini-rows { display: flex; flex-direction: column; gap: 5px; }
+    .mini-rows span { height: 9px; border-radius: 4px; background: var(--surface-3); }
+    .mini-rows span:nth-child(2) { width: 82%; }
+    .mini-rows span:nth-child(3) { width: 64%; }
+    .mini-chart { flex: 1; display: flex; align-items: flex-end; gap: 4px; padding-top: 4px; }
+    .mini-chart i { flex: 1; border-radius: 3px 3px 0 0; background: var(--brand-200); }
+    .mini-chart i:nth-child(3n) { background: var(--brand-400); }
+    .entry-card.admin .mini-side { background: #0f172a; border-right-color: #1e293b; }
+    .entry-card.admin .mini-side span { background: #334155; }
+    .entry-card.admin .mini-side span:first-child { background: #818cf8; }
+    .entry-card.admin .mini-hero { background: linear-gradient(100deg, #e0e7ff, #ede9fe); }
+    .entry-enter { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--line-2); display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--brand-600); font-size: 13px; font-weight: 700; }
+    .entry-enter .enter-hint { font-size: 10.5px; color: var(--muted-2); font-weight: 500; }
+    .entry-enter .icon { transition: transform .2s var(--ease); }
+    .entry-card:hover .entry-enter .icon { transform: translateX(4px); }
+    .entry-info-grid { display: grid; grid-template-columns: 1.15fr 1fr 1.15fr; gap: 16px; margin-top: 20px; }
+    .entry-info { padding: 20px; background: rgba(255,255,255,.78); border: 1px solid var(--line); border-radius: 16px; }
+    .entry-info h3 { display: flex; align-items: center; gap: 7px; font-size: 12.5px; }
+    .entry-info h3 .icon { color: var(--brand-500); }
+    .entry-info p { margin-top: 8px; color: var(--muted); font-size: 11.5px; line-height: 1.75; }
+    .entry-info .quick-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .entry-info .quick-links a { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 6px; background: var(--brand-50); color: var(--brand-700); font-size: 10.5px; font-weight: 600; }
+    .entry-info .quick-links a:hover { background: var(--brand-100); }
+    .entry-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 34px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted-2); font-size: 10.5px; flex-wrap: wrap; }
+    .entry-footer a { color: var(--muted); }
+    .entry-footer a:hover { color: var(--brand-600); }
+    @media (max-width: 960px) {
+      .entry-choices { grid-template-columns: 1fr; }
+      .entry-info-grid { grid-template-columns: 1fr; }
+      .entry-hero { padding-top: 28px; }
+    }
+    @media (max-width: 560px) {
+      .entry-card { padding: 20px; min-height: 0; }
+      .entry-visual { height: 132px; }
+      .entry-header { padding: 18px 0; }
+      .entry-header .brand-sub { display: none; }
+      .entry-footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body class="entry-page">
+<div class="container">
+  <header class="entry-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">云</span>
+      <span><span class="brand-name">云枢智学</span><span class="brand-sub" style="display:block">CLOUDPIVOT AI</span></span>
+    </a>
+    <span class="entry-card-badge">交互原型 · v1.0</span>
+  </header>
+
+  <main class="entry-main">
+    <section class="entry-hero">
+      <span class="eyebrow">CloudPivot AI · Interactive Prototype</span>
+      <h1>云枢智学<br><span class="gradient-text">可交互页面原型</span></h1>
+      <p>基于《云枢智学-需求文档》制作，覆盖学员端与管理端共 25 个页面。所有数据与交互均为前端模拟，用于快速评审信息架构、视觉风格与关键流程。</p>
+      <div class="entry-tags">
+        <span class="entry-tag"><b>25</b> 个页面</span>
+        <span class="entry-tag"><b>2</b> 个端</span>
+        <span class="entry-tag"><b>纯前端</b> HTML / CSS / JS</span>
+        <span class="entry-tag"><b>0</b> 外部依赖</span>
+      </div>
+    </section>
+
+    <section class="entry-choices">
+      <a class="entry-card" href="portal/index.html">
+        <div class="entry-card-head">
+          <span class="icon-tile" data-icon="graduation" data-icon-size="22"></span>
+          <span class="entry-card-badge">13 个页面</span>
+        </div>
+        <h2>学员端 Portal</h2>
+        <p class="entry-desc">从首页、题库到 AI 模拟面试的完整学习闭环，适合体验学员视角的刷题、错题复习与面试流程。</p>
+        <div class="entry-modules">
+          <span>首页</span><span>题库</span><span>刷题</span><span>错题本</span><span>学习路线</span><span>AI 面试</span><span>个人中心</span>
+        </div>
+        <div class="entry-visual" aria-hidden="true">
+          <div class="mini-window">
+            <div class="mini-top"><i></i><i></i><i></i></div>
+            <div class="mini-body">
+              <div class="mini-side"><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="mini-content">
+                <div class="mini-hero"></div>
+                <div class="mini-cards"><span></span><span></span><span></span><span></span></div>
+                <div class="mini-rows"><span></span><span></span><span></span></div>
+                <div class="mini-chart"><i style="height:30%"></i><i style="height:52%"></i><i style="height:40%"></i><i style="height:70%"></i><i style="height:48%"></i><i style="height:84%"></i><i style="height:62%"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="entry-enter">
+          <span>进入学员端 <span class="enter-hint">自动登录演示学员</span></span>
+          <span data-icon="arrowRight" data-icon-size="17"></span>
+        </div>
+      </a>
+
+      <a class="entry-card admin" href="admin/login.html">
+        <div class="entry-card-head">
+          <span class="icon-tile purple" data-icon="grid" data-icon-size="21"></span>
+          <span class="entry-card-badge">12 个页面</span>
+        </div>
+        <h2>管理端 Admin</h2>
+        <p class="entry-desc">数据看板、学科与课程内容管理、题库审核、学习路线、学员与系统权限管理，适合评审 B 端操作效率。</p>
+        <div class="entry-modules">
+          <span>数据看板</span><span>学科管理</span><span>课程库</span><span>题库管理</span><span>学习路线</span><span>学员管理</span><span>角色权限</span>
+        </div>
+        <div class="entry-visual" aria-hidden="true">
+          <div class="mini-window">
+            <div class="mini-top"><i></i><i></i><i></i></div>
+            <div class="mini-body">
+              <div class="mini-side"><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="mini-content">
+                <div class="mini-hero"></div>
+                <div class="mini-cards"><span></span><span></span><span></span><span></span></div>
+                <div class="mini-rows"><span></span><span></span><span></span></div>
+                <div class="mini-chart"><i style="height:26%"></i><i style="height:44%"></i><i style="height:60%"></i><i style="height:52%"></i><i style="height:76%"></i><i style="height:68%"></i><i style="height:90%"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="entry-enter">
+          <span>进入管理端 <span class="enter-hint">演示账号已预填</span></span>
+          <span data-icon="arrowRight" data-icon-size="17"></span>
+        </div>
+      </a>
+    </section>
+
+    <section class="entry-info-grid">
+      <div class="entry-info">
+        <h3><span data-icon="key" data-icon-size="14"></span> 演示说明</h3>
+        <p>学员端首次访问自动登录「林小满」，也可退出后使用任意非空账号密码登录。管理端演示账号 <b>admin / admin123</b>（任意非空账号密码均可登录）。</p>
+      </div>
+      <div class="entry-info">
+        <h3><span data-icon="compass" data-icon-size="14"></span> 快速入口</h3>
+        <div class="quick-links">
+          <a href="portal/questions.html">题库中心</a>
+          <a href="portal/practice.html?stage=agent-llm">刷题练习</a>
+          <a href="portal/ai-config.html">AI 面试</a>
+          <a href="admin/index.html">数据看板</a>
+          <a href="admin/questions.html">题库管理</a>
+        </div>
+      </div>
+      <div class="entry-info">
+        <h3><span data-icon="info" data-icon-size="14"></span> 原型说明</h3>
+        <p>所有数据为本地 Mock，交互状态保存在浏览器 <b>localStorage</b>。在管理端「系统设置 → 原型工具」中可以一键重置全部演示数据。</p>
+      </div>
+    </section>
+
+    <footer class="entry-footer">
+      <span>© 2026 云枢智学 · 可交互页面原型</span>
+      <span>入口文件：prototype/index.html · 详细说明见 <a href="README.md">README.md</a></span>
+    </footer>
+  </main>
+</div>
+<script src="js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云枢智学 · AI 赋能的智能面试训练平台</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%234F46E5%27/%3E%3Cstop offset=%271%27 stop-color=%27%238B5CF6%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-size=%2734%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27bold%27%3E云%3C/text%3E%3C/svg%3E">
+  <meta name="description" content="从刷题到 AI 模拟面试，云枢智学帮助你把每一次练习变成拿到 Offer 的底气。">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">云</span>
+      <span><span class="brand-name">云枢智学</span><span class="brand-sub" style="display:block">CLOUDPIVOT AI</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html" data-nav="home" class="active">首页</a>
+      <a href="routes.html" data-nav="roadmap">学习路线</a>
+      <a href="questions.html" data-nav="questions">题库</a>
+      <a href="ai-config.html" data-nav="interview">AI面试</a>
+    </nav>
+    <div class="nav-actions" id="navActions"></div>
+    <button class="nav-toggle" data-nav-toggle data-icon="menu" aria-label="展开导航"></button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="hero-pill"><span class="pulse-dot"></span> AI 驱动的智能面试训练平台</span>
+          <h1 class="hero-title">把每一次练习，<br>变成拿到 Offer 的<span class="gradient-text">底气</span></h1>
+          <p class="hero-sub">8 大 AI 技术方向 · 全题型题库 · AI 模拟面试与能力报告。用一套完整的训练闭环，把“学过”变成“会答”。</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary btn-lg" href="questions.html">
+              海量题库
+              <span data-icon="arrowRight" data-icon-size="17"></span>
+            </a>
+            <a class="btn btn-outline btn-lg" href="ai-config.html">
+              <span data-icon="mic" data-icon-size="17"></span>
+              开始 AI 面试
+            </a>
+          </div>
+          <div class="hero-note">
+            <span><span data-icon="checkCircle" data-icon-size="14"></span> 免费注册即可开始</span>
+            <span><span data-icon="shield" data-icon-size="14"></span> 学习数据本地留存</span>
+            <span><span data-icon="sparkles" data-icon-size="14"></span> 每日 5 次 AI 面试额度</span>
+          </div>
+        </div>
+
+        <div class="hero-stage">
+          <div class="hero-blob"></div>
+          <div class="hero-ai-card">
+            <div class="hero-ai-head">
+              <div class="row gap-8">
+                <span class="avatar sm" style="background:linear-gradient(135deg,#4F46E5,#8B5CF6)">枢</span>
+                <div>
+                  <div style="font-size:12px;font-weight:700">AI 面试官</div>
+                  <div style="font-size:9.5px;color:var(--muted-2)">AI应用与智能体开发 · 中等</div>
+                </div>
+              </div>
+              <span class="hero-ai-live">面试进行中</span>
+            </div>
+            <div class="hero-ai-body">
+              <div class="hero-bubble ai">请说明你会如何设计一个 AI 客服智能体的工具调用流程？</div>
+              <div class="hero-bubble me">先定义工具清单与权限边界，再让模型输出结构化调用意图，服务端做参数校验、超时与降级……</div>
+              <div class="hero-bubble ai">
+                回答结构清晰，兼顾了权限与异常处理。
+                <div class="hero-wave"><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+              <div class="hero-score-row">
+                <span class="hero-score-pill" style="background:var(--green-soft);color:var(--green-strong)"><span data-icon="checkCircle" data-icon-size="12"></span> 逻辑表达 8.8</span>
+                <span class="hero-score-pill" style="background:var(--brand-50);color:var(--brand-600)"><span data-icon="target" data-icon-size="12"></span> 专业深度 8.2</span>
+                <span class="hero-score-pill" style="background:var(--amber-soft);color:var(--amber-strong)"><span data-icon="lightbulb" data-icon-size="12"></span> 补充建议</span>
+              </div>
+            </div>
+            <div class="hero-ai-foot">
+              <span>AI 面试官正在分析你的回答...</span>
+              <span class="row gap-4" style="color:var(--brand-600);font-weight:650">题目 4 / 10 <span data-icon="chevronRight" data-icon-size="13"></span></span>
+            </div>
+          </div>
+          <div class="hero-float f1">
+            <span class="icon-tile green" data-icon="trendingUp" data-icon-size="17"></span>
+            <div><b>+12%</b><span>本周能力提升</span></div>
+          </div>
+          <div class="hero-float f2">
+            <span class="icon-tile amber" data-icon="star" data-icon-size="17"></span>
+            <div><b>8.6 / 10</b><span>综合面试评分</span></div>
+          </div>
+          <div class="hero-float f3">
+            <span class="icon-tile cyan" data-icon="clock" data-icon-size="17"></span>
+            <div><b>24 题</b><span>今日练习量</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stats" id="heroStats"></div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Quick Start</span>
+          <h2 class="section-title" style="margin-top:10px">今天，从哪里开始？</h2>
+        </div>
+        <a class="section-link" href="questions.html">浏览全部题目 <span data-icon="arrowRight" data-icon-size="14"></span></a>
+      </div>
+      <div class="quick-grid" id="quickGrid"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Core Features</span>
+          <h2 class="section-title" style="margin-top:10px">一条完整的训练闭环</h2>
+          <p class="section-desc">从知识输入到输出检验，每一步都有数据反馈。刷题、错题、面试、报告，形成持续补强的学习循环。</p>
+        </div>
+      </div>
+      <div class="feature-grid" id="featureGrid"></div>
+    </div>
+  </section>
+
+  <section class="section-sm">
+    <div class="container">
+      <div class="learning-grid">
+        <div class="learning-card">
+          <div class="row-between" style="align-items:flex-start">
+            <div>
+              <span class="eyebrow">Learning Stats</span>
+              <h2 style="font-size:20px;margin-top:8px">学习统计</h2>
+            </div>
+            <a class="section-link" href="profile.html">查看全部 <span data-icon="arrowRight" data-icon-size="14"></span></a>
+          </div>
+          <div class="learning-streak" style="margin-top:22px">
+            <span class="streak-flame">🔥</span>
+            <div>
+              <b id="streakNum">12<em>天</em></b>
+              <div class="small muted">连续学习，保持得很好</div>
+            </div>
+          </div>
+          <div class="learning-mini-grid">
+            <div class="learning-mini"><div class="num" id="accuracyNum">82%</div><div class="lbl">答题正确率</div></div>
+            <div class="learning-mini"><div class="num" id="totalNum">468</div><div class="lbl">累计练习题数</div></div>
+          </div>
+        </div>
+        <div class="learning-card">
+          <div class="chart-head">
+            <div>
+              <span class="eyebrow">Last 7 Days</span>
+              <h3 style="font-size:20px;margin-top:8px">近 7 天练习</h3>
+              <p>每天进步一点点，数据会记得</p>
+            </div>
+            <span class="today-pill">今日已刷 <b>24</b> 题</span>
+          </div>
+          <div class="bar-chart" id="practiceChart" role="img" aria-label="近 7 天每日练习量柱状图"></div>
+          <table class="sr-only" id="practiceChartTable">
+            <caption>近 7 天练习量</caption>
+            <thead><tr><th>日期</th><th>练习量</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Popular Subjects</span>
+          <h2 class="section-title" style="margin-top:10px">热门学科</h2>
+          <p class="section-desc">从大家正在学的学科方向开始，进入学科查看阶段与题目。</p>
+        </div>
+        <a class="section-link" href="questions.html">进入题库中心 <span data-icon="arrowRight" data-icon-size="14"></span></a>
+      </div>
+      <div class="stage-grid" id="hotSubjectGrid"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="ai-intro">
+        <div>
+          <span class="eyebrow">AI Mock Interview</span>
+          <h2>像真实面试一样<em>被提问</em>，<br>像专业教练一样<em>拿到反馈</em></h2>
+          <p>选择技术方向与难度，AI 面试官逐题提问、实时评分，结束后生成能力分析报告。知道差在哪，才知道怎么补。</p>
+          <div class="ai-points">
+            <div class="ai-point"><span data-icon="sparkles" data-icon-size="16"></span> 智能出题，贴合方向</div>
+            <div class="ai-point"><span data-icon="chart" data-icon-size="16"></span> 实时评分，逐题反馈</div>
+            <div class="ai-point"><span data-icon="file" data-icon-size="16"></span> 面试报告，能力拆解</div>
+            <div class="ai-point"><span data-icon="database" data-icon-size="16"></span> 海量知识，持续更新</div>
+          </div>
+          <a class="btn btn-primary btn-lg" href="ai-config.html">立即体验 AI 面试 <span data-icon="arrowRight" data-icon-size="17"></span></a>
+        </div>
+        <div class="demo-chat">
+          <div class="demo-chat-head"><span>AI 面试官 · 大模型开发 · 困难</span><span>第 6 / 10 题</span></div>
+          <div class="demo-chat-body">
+            <div class="demo-msg ai">KV Cache 的原理是什么？在大模型推理中它解决了什么问题？</div>
+            <div class="demo-msg me">自回归生成时，历史 Token 的 K/V 值不会改变，缓存它们可以避免每一步重复计算……</div>
+            <div class="demo-msg ai">回答准确，且补充了显存占用与优化方向。</div>
+            <div class="demo-score"><span data-icon="award" data-icon-size="18"></span> 本题得分 <b>9.1</b> <span>/ 10 · 表现优秀</span></div>
+          </div>
+          <div class="demo-chat-foot">
+            <div class="demo-input">输入你的回答，或使用语音作答…</div>
+            <button class="demo-send" data-icon="send" data-icon-size="15" aria-label="发送"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="siteFooter"></div>
+
+<script src="../js/common.js"></script>
+<script src="../js/portal.js"></script>
+<script src="../js/pages/home.js"></script>
+</body>
+</html>

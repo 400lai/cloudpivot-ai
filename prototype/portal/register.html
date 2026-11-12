@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册 · 云枢智学</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%270%27 x2=%271%27 y2=%271%27%3E%3Cstop offset=%270%27 stop-color=%27%234F46E5%27/%3E%3Cstop offset=%271%27 stop-color=%27%238B5CF6%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27url(%23g)%27/%3E%3Ctext x=%2732%27 y=%2743%27 font-size=%2734%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27bold%27%3E云%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+</head>
+<body class="auth-page" data-auth-page="register">
+
+<div class="auth-shell">
+  <aside class="auth-aside">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">云</span>
+      <span><span class="brand-name">云枢智学</span><span class="brand-sub" style="display:block">CLOUDPIVOT AI</span></span>
+    </a>
+    <div class="auth-aside-body">
+      <span class="eyebrow" style="color:#c7d2fe">Get Started</span>
+      <h1>创建账号，<br>开启你的 AI 进阶之路。</h1>
+      <p>从选择技术方向开始，用刷题建立基础，用 AI 面试检验成果。三步完成你的训练闭环。</p>
+      <div class="auth-steps" id="registerSteps">
+        <div class="auth-step active">
+          <span class="auth-step-dot">1</span>
+          <div><b>创建账号</b><span>手机号验证，设置登录密码</span></div>
+        </div>
+        <div class="auth-step">
+          <span class="auth-step-dot">2</span>
+          <div><b>完善信息</b><span>选择技术方向与学习目标</span></div>
+        </div>
+        <div class="auth-step">
+          <span class="auth-step-dot">3</span>
+          <div><b>开始训练</b><span>刷题、路线与 AI 面试</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="auth-quote">注册即享每日 5 次 AI 面试额度，所有学习记录自动保存。</div>
+  </aside>
+
+  <main class="auth-main">
+    <div class="auth-card">
+      <div class="auth-form-head">
+        <h1>创建你的账号</h1>
+        <p>只需一分钟，即可开始第一道练习</p>
+      </div>
+
+      <form class="auth-form" id="registerForm" novalidate>
+        <div class="field">
+          <label class="field-label" for="regPhone">手机号</label>
+          <div class="input-wrap">
+            <span data-icon="phone" data-icon-size="17"></span>
+            <input class="input" id="regPhone" type="tel" placeholder="请输入 11 位手机号" maxlength="11">
+          </div>
+          <p class="field-error">请输入正确的 11 位手机号</p>
+        </div>
+        <div class="field">
+          <label class="field-label" for="regCode">验证码</label>
+          <div class="row gap-10">
+            <input class="input" id="regCode" type="text" placeholder="请输入 6 位验证码" maxlength="6" style="flex:1">
+            <button class="btn btn-outline" type="button" id="regCodeBtn" style="width:118px">获取验证码</button>
+          </div>
+          <p class="field-error">请输入 6 位验证码</p>
+        </div>
+        <div class="field">
+          <label class="field-label" for="regPassword">设置密码</label>
+          <div class="input-wrap">
+            <span data-icon="lock" data-icon-size="17"></span>
+            <input class="input" id="regPassword" type="password" placeholder="6-20 位密码" maxlength="20" style="padding-right:44px">
+            <button type="button" class="input-action" data-toggle-password="#regPassword" aria-label="显示密码" data-icon="eye" data-icon-size="16" style="padding:4px"></button>
+          </div>
+          <div class="password-strength" id="strengthBar">
+            <span class="seg"></span><span class="seg"></span><span class="seg"></span>
+            <span class="txt" style="color:var(--muted-2)">—</span>
+          </div>
+          <p class="field-hint">建议包含大小写字母、数字与特殊字符</p>
+          <p class="field-error">密码需为 6-20 位</p>
+        </div>
+        <div class="field">
+          <label class="field-label" for="regConfirm">确认密码</label>
+          <div class="input-wrap">
+            <span data-icon="lock" data-icon-size="17"></span>
+            <input class="input" id="regConfirm" type="password" placeholder="请再次输入密码" maxlength="20">
+          </div>
+          <p class="field-error">两次输入的密码不一致</p>
+        </div>
+        <label class="checkbox" style="margin-top:2px">
+          <input type="checkbox" id="agree">
+          <span class="box"></span>
+          <span>我已阅读并同意 <a href="#" data-placeholder="用户协议">《用户协议》</a>和 <a href="#" data-placeholder="隐私政策">《隐私政策》</a></span>
+        </label>
+        <p class="field-error" id="agreeError" style="margin-top:-8px">请先阅读并同意用户协议与隐私政策</p>
+        <button class="btn btn-primary btn-block auth-submit" type="submit">注册并开始学习</button>
+      </form>
+
+      <div class="auth-bottom">已有账号？<a href="login.html">直接登录</a></div>
+    </div>
+  </main>
+</div>
+
+<script src="../js/common.js"></script>
+<script src="../js/pages/auth.js"></script>
+</body>
+</html>
